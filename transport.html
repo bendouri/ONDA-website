@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Transport au Maroc</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      background-color: #f1f1f1;
+    }
+
+    h1 {
+      color: #2c3e50;
+      padding: 20px;
+    }
+
+    .transport-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 0 20px 40px 20px;
+      justify-content: space-between;
+    }
+
+    .transport-card {
+      width: calc(50% - 10px);
+      min-width: 300px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .transport-card:hover {
+      transform: rotateY(10deg) rotateX(5deg) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .transport-card img {
+      width: 200px;
+      object-fit: cover;
+    }
+
+    .transport-info {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .transport-info h3 {
+      margin-top: 0;
+      color: #2980b9;
+    }
+
+    .categorie {
+      font-style: italic;
+      color: #555;
+    }
+
+    .note {
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    @media (max-width: 768px) {
+      .transport-card {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .transport-card img {
+        width: 100%;
+      }
+    }
+
+    .topnav {
+      background-color: #003366;
+      overflow: hidden;
+    }
+
+    .topnav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+
+    .topnav a:hover {
+      background-color: #feffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+  </div>
+
+  <h1>Moyens de transport au Maroc</h1>
+
+  <div class="transport-list" id="transport-list"></div>
+
+  <script>
+    const transportData = {
+      Casablanca: [
+        {
+          nom: "Grands Taxis",
+          categorie: "Taxi interville",
+          note: "4.0/5",
+          description: "Taxis collectifs vers d'autres villes, au départ de ronds-points.",
+          image: "casataxi.jpg"
+        },
+        {
+          nom: "inDrive / Careem",
+          categorie: "Transport privé mobile",
+          note: "4.2/5",
+          description: "Alternatives modernes aux taxis via applications.",
+          image: "indrive.jpg"
+        },
+      ],
+      Marrakech: [
+        {
+          nom: "Petits taxis",
+          categorie: "Taxi urbain",
+          note: "3.9/5",
+          description: "Circulation facile en ville, tarif au compteur.",
+          image: "taxikech.jpg"
+        },
+        {
+          nom: "Scooter Rent",
+          categorie: "Location de moto",
+          note: "4.6/5",
+          description: "Louez un scooter pour visiter la ville librement.",
+          image: "scooter.jpg"
+        },
+        {
+          nom: "Supratours",
+          categorie: "Bus longue distance",
+          note: "4.3/5",
+          description: "Liaison fiable entre Marrakech et d'autres villes.",
+          image: "sup.jpg"
+        },
+        {
+          nom: "Koutchi",
+          categorie: "Transport connus à Marrakech",
+          note: "4.7/5",
+          description: "Liaison fiable entre les monuments touristiques.",
+          image: "koutchi.jpg"
+        }
+      ],
+      Fès: [
+        {
+          nom: "Tram ",
+          categorie: "Transport public",
+          note: "3.7/5",
+          description: "Système limité mais pratique vers certaines zones.",
+          image: "tram.jpg"
+        },
+        {
+          nom: "Location Auto",
+          categorie: "Location voiture",
+          note: "4.4/5",
+          description: "Voitures économiques ou SUV disponibles rapidement.",
+          image: "locfes.jpg"
+        }
+      ],
+      Agadir: [
+        {
+          nom: "Bus ALSA",
+          categorie: "Transport public",
+          note: "3.6/5",
+          description: "Couvre la plupart des destinations locales.",
+          image: "alsaagadir.jpg"
+        },
+      ]
+    };
+
+    const container = document.getElementById("transport-list");
+
+    for (const ville in transportData) {
+      transportData[ville].forEach(t => {
+        const card = document.createElement("div");
+        card.className = "transport-card";
+
+        card.innerHTML = `
+          <img src="${t.image}" alt="Image de ${t.nom}">
+          <div class="transport-info">
+            <h3>${t.nom}</h3>
+            <p class="categorie">${t.categorie}</p>
+            <p class="note">Note : ${t.note}</p>
+            <p>${t.description}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>

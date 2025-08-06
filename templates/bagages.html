@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block title %}Bagages - ONDA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bagages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bagages-hero">
+    <div class="container">
+        <div class="row align-items-center min-vh-70">
+            <div class="col-lg-6">
+                <div class="hero-content" data-aos="fade-right">
+                    <div class="hero-badge">
+                        <i class="fas fa-suitcase-rolling me-2"></i>
+                        <span>Informations Bagages</span>
+                    </div>
+                    <h1 class="hero-title">Règles et Conseils <span class="text-gradient">Bagages</span></h1>
+                    <p class="hero-subtitle">Tout ce que vous devez savoir sur les bagages en soute, à main et les objets spéciaux pour voyager en toute sérénité.</p>
+                    <div class="hero-buttons">
+                        <a href="#bagages-content" class="btn btn-primary btn-modern">
+                            <i class="fas fa-info-circle me-2"></i>Consulter les règles
+                        </a>
+                        <a href="#calculateur" class="btn btn-outline-modern">
+                            <i class="fas fa-calculator me-2"></i>Calculateur de frais
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+                    <div class="baggage-stack">
+                        <div class="baggage-item suitcase">
+                            <i class="fas fa-suitcase"></i>
+                            <span>Bagage Soute</span>
+                            <div class="weight-tag">23kg</div>
+                        </div>
+                        <div class="baggage-item carry-on">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Bagage Cabine</span>
+                            <div class="weight-tag">8kg</div>
+                        </div>
+                        <div class="baggage-item personal">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Accessoire</span>
+                            <div class="weight-tag">2kg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up">
+                    <div class="stat-icon">
+                        <i class="fas fa-weight-hanging"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>23kg</h3>
+                        <p>Poids maximum<br>bagage soute</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>158cm</h3>
+                        <p>Dimensions totales<br>maximum</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon">
+                        <i class="fas fa-hand-holding"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>8kg</h3>
+                        <p>Poids maximum<br>bagage cabine</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>100ml</h3>
+                        <p>Volume maximum<br>liquides cabine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section id="bagages-content" class="bagages-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                
+                <!-- Bagages en Soute -->
+                <div class="baggage-section" data-aos="fade-up">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-suitcase"></i>
+                        </div>
+                        <div class="section-title">
+                            <h2>Bagages en Soute</h2>
+                        </div>
+                        <span class="section-badge standard">Standard</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="checklist-grid">
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-weight"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Poids Maximum</h5>
+                                    <p>23 kg (économique)<br>32 kg (affaires)</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-ruler"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Dimensions</h5>
+                                    <p>158 cm maximum<br>(L + l + h)</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Objets Interdits</h5>
+                                    <p>Explosifs, armes,<br>produits dangereux</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-battery-half"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Batteries</h5>
+                                    <p>Lithium endommagées<br>interdites</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bagages à Main -->
+                <div class="baggage-section" data-aos="fade-up" data-aos-delay="100">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="section-title">
+                            <h2>Bagages à Main</h2>
+                        </div>
+                        <span class="section-badge cabin">Cabine</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="checklist-grid">
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-weight-hanging"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Poids Limite</h5>
+                                    <p>8 kg maximum<br>par bagage</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Dimensions</h5>
+                                    <p>55 x 40 x 20 cm<br>maximum</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Liquides</h5>
+                                    <p>100ml max/contenant<br>Sac plastique 1L</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <div class="check-content">
+                                    <h5>Accessoire</h5>
+                                    <p>Sac à main +<br>ordinateur autorisé</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Objets Spéciaux -->
+                <div class="baggage-section" data-aos="fade-up" data-aos-delay="200">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="section-title">
+                            <h2>Objets Spéciaux</h2>
+                        </div>
+                        <span class="section-badge special">Spécial</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="special-categories">
+                            <div class="special-card">
+                                <div class="special-header">
+                                    <i class="fas fa-golf-ball"></i>
+                                    <h4>Équipements Sportifs</h4>
+                                </div>
+                                <div class="special-body">
+                                    <ul class="special-list">
+                                        <li><i class="fas fa-check me-2"></i>Clubs de golf : Emballage requis</li>
+                                        <li><i class="fas fa-check me-2"></i>Équipement de ski : Dimensions spéciales</li>
+                                        <li><i class="fas fa-check me-2"></i>Vélos : Démontage partiel</li>
+                                        <li><i class="fas fa-check me-2"></i>Planches de surf : Emballage renforcé</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="special-card">
+                                <div class="special-header">
+                                    <i class="fas fa-music"></i>
+                                    <h4>Instruments de Musique</h4>
+                                </div>
+                                <div class="special-body">
+                                    <ul class="special-list">
+                                        <li><i class="fas fa-check me-2"></i>Petits instruments : Cabine possible</li>
+                                        <li><i class="fas fa-check me-2"></i>Grands instruments : Siège supplémentaire</li>
+                                        <li><i class="fas fa-check me-2"></i>Emballage professionnel recommandé</li>
+                                        <li><i class="fas fa-check me-2"></i>Déclaration préalable obligatoire</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conseils Pratiques -->
+                <div class="baggage-section" data-aos="fade-up" data-aos-delay="300">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="section-title">
+                            <h2>Conseils Pratiques</h2>
+                        </div>
+                        <span class="section-badge tips">Conseils</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="tips-grid">
+                            <div class="tip-card preparation">
+                                <div class="tip-header">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <h4>Préparation</h4>
+                                </div>
+                                <div class="tip-body">
+                                    <ul>
+                                        <li>Étiquetez vos bagages avec nom et contact</li>
+                                        <li>Photographiez vos bagages avant le voyage</li>
+                                        <li>Ne laissez jamais vos bagages sans surveillance</li>
+                                        <li>Arrivez en avance pour éviter les frais</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="tip-card problems">
+                                <div class="tip-header">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <h4>En Cas de Problème</h4>
+                                </div>
+                                <div class="tip-body">
+                                    <ul>
+                                        <li>Déclarez immédiatement les bagages perdus</li>
+                                        <li>Conservez tous les reçus de bagages</li>
+                                        <li>Contactez votre assurance voyage</li>
+                                        <li>Gardez l'essentiel en bagage cabine</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="bagages-sidebar">
+                    <!-- Calculateur de Frais -->
+                    <div class="sidebar-card" id="calculateur">
+                        <div class="card-header">
+                            <i class="fas fa-calculator"></i>
+                            <h4>Calculateur de Frais</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="calculator-form">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Poids du bagage (kg)</label>
+                                    <input type="number" class="form-control" id="weight" placeholder="Ex: 25">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Classe de voyage</label>
+                                    <select class="form-select" id="class">
+                                        <option value="economy">Économique</option>
+                                        <option value="business">Affaires</option>
+                                        <option value="first">Première</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary w-100" onclick="calculateFees()">
+                                    <i class="fas fa-calculator me-2"></i>Calculer
+                                </button>
+                                <div id="feeResult" class="mt-3" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contacts Utiles -->
+                    <div class="sidebar-card">
+                        <div class="card-header">
+                            <i class="fas fa-phone"></i>
+                            <h4>Contacts Utiles</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="contact-list">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-headset"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Service Bagages</h5>
+                                        <p>+212 522 53 90 40</p>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Bagages Perdus</h5>
+                                        <p>+212 522 53 90 50</p>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Informations</h5>
+                                        <p>info@onda.ma</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Services Connexes -->
+                    <div class="sidebar-card">
+                        <div class="card-header">
+                            <i class="fas fa-link"></i>
+                            <h4>Services Connexes</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <a href="{{ url_for('documents') }}" class="action-btn">
+                                    <i class="fas fa-passport"></i>
+                                    <span>Documents de Voyage</span>
+                                </a>
+                                <a href="{{ url_for('surete') }}" class="action-btn">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Contrôles de Sécurité</span>
+                                </a>
+                                <a href="{{ url_for('transport') }}" class="action-btn">
+                                    <i class="fas fa-bus"></i>
+                                    <span>Transport Aéroport</span>
+                                </a>
+                                <a href="{{ url_for('contact') }}" class="action-btn">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Nous Contacter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function calculateFees() {
+    const weight = document.getElementById('weight').value;
+    const travelClass = document.getElementById('class').value;
+    const resultDiv = document.getElementById('feeResult');
+    
+    if (!weight) {
+        resultDiv.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>Veuillez saisir le poids</div>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+    
+    let limit, fee = 0;
+    
+    switch(travelClass) {
+        case 'economy':
+            limit = 23;
+            break;
+        case 'business':
+        case 'first':
+            limit = 32;
+            break;
+    }
+    
+    if (weight > limit) {
+        const excess = weight - limit;
+        fee = excess * 15; // 15€ par kg supplémentaire
+    }
+    
+    if (fee > 0) {
+        resultDiv.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <strong>Excédent: ${excess}kg</strong><br>
+                <strong>Frais: ${fee}€</strong>
+            </div>
+        `;
+    } else {
+        resultDiv.innerHTML = `
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>Aucun frais supplémentaire</strong>
+            </div>
+        `;
+    }
+    
+    resultDiv.style.display = 'block';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Documents du Voyage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(to bottom right, #e6f2ff, #ffffff);
+      color: #333;
+    }
+
+    .topnav {
+      background-color: #003366;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .topnav a {
+      color: #fff;
+      text-align: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .topnav a:hover {
+      background-color: #005599;
+    }
+
+    .doc-section {
+      background-color: #fff;
+      margin: 40px auto;
+      padding: 40px 30px;
+      max-width: 900px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .doc-section h1 {
+      text-align: center;
+      color: #003366;
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+
+    .doc-section h2 {
+      color: #005599;
+      margin-top: 30px;
+      font-size: 22px;
+    }
+
+    .doc-section h2 i {
+      margin-right: 8px;
+      color: #0077cc;
+    }
+
+    .doc-section p, .doc-section ul {
+      font-size: 16px;
+    }
+
+    ul {
+      margin-left: 20px;
+      padding-left: 10px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    /* Menu déroulant (accordéon) */
+    .accordion {
+      margin-top: 40px;
+    }
+
+    .accordion-button {
+      background-color: #005599;
+      color: #fff;
+      cursor: pointer;
+      padding: 14px 20px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 17px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .accordion-button:hover {
+      background-color: #004477;
+    }
+
+    .accordion-content {
+      padding: 15px 20px;
+      display: none;
+      background-color: #f4f8fc;
+      border-radius: 0 0 8px 8px;
+      margin-top: 5px;
+      line-height: 1.6;
+    }
+
+    @media screen and (max-width: 600px) {
+      .doc-section {
+        padding: 20px 15px;
+      }
+
+      .topnav {
+        flex-direction: column;
+      }
+
+      .topnav a {
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+    <a href="formalites.html">Retour aux formalités</a>
+  </div>
+
+  <section class="doc-section">
+    <h1>Documents nécessaires pour voyager en avion</h1>
+    <p>Avant de vous rendre à l'aéroport, assurez-vous de disposer de tous les documents suivants :</p>
+
+    <h2><i class="fas fa-passport"></i>1. Passeport</h2>
+    <p>Document d'identité international obligatoire pour les voyages à l'étranger. Il doit être valide pour une durée suffisante (souvent 6 mois après la date de retour).</p>
+
+    <h2><i class="fas fa-plane-departure"></i>2. Billet d'avion</h2>
+    <p>Imprimé ou version électronique. Vous pouvez l'obtenir après votre réservation en ligne ou auprès d'une agence de voyage.</p>
+
+    <h2><i class="fas fa-id-card"></i>3. Pièce d'identité</h2>
+    <p>Pour les vols nationaux ou certaines destinations (dans l’espace Schengen pour les citoyens européens), une carte nationale d’identité peut suffire.</p>
+
+    <h2><i class="fas fa-ticket-alt"></i>4. Carte d'embarquement</h2>
+    <p>Elle vous permet d'accéder à l'avion. Vous pouvez l’obtenir :</p>
+    <ul>
+      <li>En ligne (check-in via site ou application)</li>
+      <li>Aux bornes automatiques à l’aéroport</li>
+      <li>Aux comptoirs d’enregistrement</li>
+    </ul>
+
+    <h2><i class="fas fa-lightbulb"></i>Conseils supplémentaires</h2>
+    <ul>
+      <li>Vérifiez si un <strong>visa</strong> est nécessaire pour votre destination.</li>
+      <li>Gardez une <strong>copie numérique</strong> de vos documents en cas de perte.</li>
+      <li>Utilisez une <strong>pochette de voyage</strong> pour regrouper tous vos documents.</li>
+    </ul>
+
+    <!-- Menu déroulant -->
+    <div class="accordion">
+      <button class="accordion-button"><i class="fas fa-info-circle"></i> Autres informations utiles</button>
+      <div class="accordion-content">
+        <ul>
+          <li><strong>Vaccins :</strong> Vérifiez les vaccins exigés pour votre destination.</li>
+          <li><strong>Bagages :</strong> Poids et dimensions autorisés varient selon la compagnie.</li>
+          <li><strong>Douane :</strong> Renseignez-vous sur les objets interdits ou déclarables.</li>
+          <li><strong>Assurance voyage :</strong> Recommandée en cas d’imprévus médicaux ou annulations.</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    const accordionBtn = document.querySelector('.accordion-button');
+    const accordionContent = document.querySelector('.accordion-content');
+
+    accordionBtn.addEventListener('click', () => {
+      accordionContent.style.display = accordionContent.style.display === 'block' ? 'none' : 'block';
+    });
+  </script>
+
+</body>
+</html>

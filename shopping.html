@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping au Maroc</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      background-color: #f9f9f9;
+    }
+
+    h1, h2 {
+      color: #003366;
+    }
+
+    .ville-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .ville-btn {
+      padding: 12px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .ville-btn:hover {
+     background-color: #ca6f1e;
+    }
+
+    .shop-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .shop-card {
+      width: calc(50% - 10px);
+      min-width: 300px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+    }
+
+    .shop-card img {
+      width: 200px;
+      object-fit: cover;
+    }
+
+    .shop-info {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .shop-info h3 {
+      margin-top: 0;
+      color: #8e44ad;
+    }
+
+    .categorie {
+      font-style: italic;
+      color: #555;
+    }
+
+    .note {
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    @media (max-width: 768px) {
+      .shop-card {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .shop-card img {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+  </div>
+<body>
+
+  <h1>Choisissez une ville pour découvrir les meilleures boutiques</h1>
+
+  <div class="ville-container">
+    <button class="ville-btn" onclick="afficherBoutiques('Casablanca')">Casablanca</button>
+    <button class="ville-btn" onclick="afficherBoutiques('Marrakech')">Marrakech</button>
+    <button class="ville-btn" onclick="afficherBoutiques('Fès')">Fès</button>
+    <button class="ville-btn" onclick="afficherBoutiques('Tanger')">Tanger</button>
+    <button class="ville-btn" onclick="afficherBoutiques('Rabat')">Rabat</button>
+  </div>
+
+  <div class="shop-list" id="shop-list"></div>
+
+  <script>
+    const boutiquesData = {
+      Casablanca: [
+        {
+          nom: "Moroccan Touch",
+          categorie: "Mode & artisanat",
+          note: "4.7/5",
+          description: "Boutique de vêtements et accessoires inspirés de l’art marocain.",
+          image: "moroccantouch.jpg"
+        },
+        {
+          nom: "Anfaplace Mall",
+          categorie: "Centre commercial",
+          note: "4.5/5",
+          description: "Grand centre avec marques internationales et cafés face à la mer.",
+          image: "anfa.jpg"
+        }
+      ],
+      Marrakech: [
+        {
+          nom: "Souk Semmarine",
+          categorie: "Marché traditionnel",
+          note: "4.8/5",
+          description: "Immense souk avec épices, tapis, lanternes, babouches.",
+          image: "souk.jpg"
+        },
+        {
+          nom: "Marrakech Plaza",
+          categorie: "Boutiques modernes",
+          note: "4.4/5",
+          description: "Centre animé avec mode, déco, restos et terrasses.",
+          image: "plaza.jpg"
+        }
+      ],
+      Fès: [
+        {
+          nom: "Art Naji",
+          categorie: "Artisanat de Fès",
+          note: "4.6/5",
+          description: "Célèbre pour ses poteries et faïences traditionnelles.",
+          image: "naji.jpg"
+        },
+        {
+          nom: "Medersa Cherratine",
+          categorie: "Souk & culture",
+          note: "4.3/5",
+          description: "Zone de shopping autour d’un ancien édifice religieux.",
+          image: "mdrasa.jpg"
+        }
+      ],
+      Tanger: [
+        {
+          nom: "Tanger City Mall",
+          categorie: "Centre commercial",
+          note: "4.6/5",
+          description: "Moderne et pratique, près de la plage, avec cinéma et supermarché.",
+          image: "mall.jpg"
+        },
+        {
+          nom: "Kasbah Shop",
+          categorie: "Boutique traditionnelle",
+          note: "4.7/5",
+          description: "Objets d’art, déco et souvenirs dans la kasbah historique.",
+          image: "kasbah.jpg"
+        }
+      ],
+      Rabat: [
+    {
+      nom: "Mega Mall",
+      categorie: "Centre commercial",
+      note: "4.6/5",
+      description: "Grand centre avec patinoire, boutiques et restaurants.",
+      image: "mega.jpg"
+    },
+    {
+      nom: "Souk de Rabat",
+      categorie: "Artisanat & marché local",
+      note: "4.5/5",
+      description: "Un mélange de produits traditionnels et modernes.",
+      image: "souika.jpg"
+    }
+  ],
+
+    };
+
+    function afficherBoutiques(ville) {
+      const boutiques = boutiquesData[ville];
+      const container = document.getElementById("shop-list");
+      container.innerHTML = `<h2>Boutiques populaires à ${ville}</h2>`;
+
+      boutiques.forEach(shop => {
+        const card = document.createElement("div");
+        card.className = "shop-card";
+
+        card.innerHTML = `
+          <img src="${shop.image}" alt="Image de ${shop.nom}">
+          <div class="shop-info">
+            <h3>${shop.nom}</h3>
+            <p class="categorie">${shop.categorie}</p>
+            <p class="note">Note : ${shop.note}</p>
+            <p>${shop.description}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>

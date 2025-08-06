@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}Gestion des Restaurants - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_users') }}">
+                            <i class="fas fa-users"></i> Utilisateurs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_transport') }}">
+                            <i class="fas fa-bus"></i> Transport
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_restaurants') }}">
+                            <i class="fas fa-utensils"></i> Restaurants
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_shopping') }}">
+                            <i class="fas fa-shopping-cart"></i> Shopping
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_flights') }}">
+                            <i class="fas fa-plane"></i> Vols
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_contacts') }}">
+                            <i class="fas fa-envelope"></i> Messages de Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Gestion des Restaurants</h1>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRestaurantModal">
+                    <i class="fas fa-plus"></i> Ajouter Restaurant
+                </button>
+            </div>
+
+            <!-- Restaurants Table -->
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Cuisine</th>
+                            <th>Ville</th>
+                            <th>Note</th>
+                            <th>Ouvert</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for restaurant in restaurants %}
+                        <tr>
+                            <td>{{ restaurant.id }}</td>
+                            <td>{{ restaurant.name }}</td>
+                            <td>{{ restaurant.cuisine_type }}</td>
+                            <td>{{ restaurant.city }}</td>
+                            <td>
+                                <span class="badge bg-warning">{{ restaurant.rating }}/5</span>
+                            </td>
+                            <td>
+                                {% if restaurant.is_open %}
+                                    <span class="badge bg-success">Ouvert</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Fermé</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary edit-restaurant-btn" data-restaurant-id="{{ restaurant.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger delete-restaurant-btn" data-restaurant-id="{{ restaurant.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add Restaurant Modal -->
+<div class="modal fade" id="addRestaurantModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un Restaurant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_restaurants') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cuisine_type" class="form-label">Type de cuisine</label>
+                        <select class="form-select" id="cuisine_type" name="cuisine_type" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="Marocaine">Marocaine</option>
+                            <option value="Française">Française</option>
+                            <option value="Italienne">Italienne</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Asiatique">Asiatique</option>
+                            <option value="Internationale">Internationale</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Localisation</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Note (1-5)</label>
+                        <input type="number" min="1" max="5" step="0.1" class="form-control" id="rating" name="rating" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_open" name="is_open" checked>
+                        <label class="form-check-label" for="is_open">Ouvert</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Restaurant Modal -->
+<div class="modal fade" id="editRestaurantModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier le Restaurant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" id="editRestaurantForm">
+                <div class="modal-body">
+                    <input type="hidden" id="edit_restaurant_id" name="restaurant_id">
+                    <div class="mb-3">
+                        <label for="edit_name" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_cuisine_type" class="form-label">Type de cuisine</label>
+                        <select class="form-select" id="edit_cuisine_type" name="cuisine_type" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="Marocaine">Marocaine</option>
+                            <option value="Française">Française</option>
+                            <option value="Italienne">Italienne</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Asiatique">Asiatique</option>
+                            <option value="Internationale">Internationale</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_city" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="edit_city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_location" class="form-label">Localisation</label>
+                        <input type="text" class="form-control" id="edit_location" name="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_rating" class="form-label">Note (1-5)</label>
+                        <input type="number" min="1" max="5" step="0.1" class="form-control" id="edit_rating" name="rating" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">Description</label>
+                        <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="edit_is_open" name="is_open">
+                        <label class="form-check-label" for="edit_is_open">Ouvert</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Edit restaurant buttons
+    document.querySelectorAll('.edit-restaurant-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const restaurantId = this.getAttribute('data-restaurant-id');
+            
+            // Fetch restaurant data
+            fetch(`/admin/restaurants/${restaurantId}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the edit form
+                        document.getElementById('edit_restaurant_id').value = data.restaurant.id;
+                        document.getElementById('edit_name').value = data.restaurant.name;
+                        document.getElementById('edit_cuisine_type').value = data.restaurant.cuisine_type;
+                        document.getElementById('edit_city').value = data.restaurant.city;
+                        document.getElementById('edit_location').value = data.restaurant.location || '';
+                        document.getElementById('edit_rating').value = data.restaurant.rating;
+                        document.getElementById('edit_description').value = data.restaurant.description || '';
+                        document.getElementById('edit_is_open').checked = data.restaurant.is_open;
+                        
+                        // Set form action
+                        document.getElementById('editRestaurantForm').action = `/admin/restaurants/${restaurantId}/update`;
+                        
+                        // Show modal
+                        new bootstrap.Modal(document.getElementById('editRestaurantModal')).show();
+                    } else {
+                        alert('Erreur lors du chargement des données');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors du chargement des données');
+                });
+        });
+    });
+    
+    // Delete restaurant buttons
+    document.querySelectorAll('.delete-restaurant-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const restaurantId = this.getAttribute('data-restaurant-id');
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce restaurant ?')) {
+                fetch(`/admin/restaurants/${restaurantId}/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erreur lors de la suppression');
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

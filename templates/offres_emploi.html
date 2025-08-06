@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block title %}Offres d'emploi - ONDA{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+        color: white;
+        padding: 4rem 0 3rem;
+        margin-top: 76px;
+    }
+
+    .search-filters {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-top: -2rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .job-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+    }
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 102, 204, 0.15);
+        border-color: var(--primary-color);
+    }
+
+    .job-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .job-reference {
+        background: linear-gradient(135deg, var(--accent-color) 0%, #00b894 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .job-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .job-detail {
+        background: #f8f9fa;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .job-detail i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+    }
+
+    .job-description {
+        color: #666;
+        line-height: 1.6;
+        margin: 1rem 0;
+    }
+
+    .btn-apply {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #e55a4f 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-apply:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .stats-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 3rem 0;
+        margin: 3rem 0;
+    }
+
+    .stat-card {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        display: block;
+    }
+
+    .stat-label {
+        color: #666;
+        font-weight: 500;
+        margin-top: 0.5rem;
+    }
+
+    .filter-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    .no-jobs {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    .no-jobs i {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+    }
+
+    :root {
+        --primary-color: #0066cc;
+        --secondary-color: #ff6b35;
+        --accent-color: #00d4aa;
+    }
+
+    @media (max-width: 768px) {
+        .job-details {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .job-detail {
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Offres d'emploi</h1>
+                <p class="lead">Rejoignez l'équipe ONDA et participez au développement du transport aérien au Maroc</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Filtres de recherche -->
+    <div class="search-filters">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="search" name="search" value="{{ search }}" placeholder="Rechercher...">
+                    <label for="search"><i class="fas fa-search me-2"></i>Rechercher</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <select class="form-select" id="department" name="department">
+                        <option value="">Tous les départements</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept }}" {% if dept == selected_department %}selected{% endif %}>{{ dept }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="department"><i class="fas fa-building me-2"></i>Département</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <select class="form-select" id="contract_type" name="contract_type">
+                        <option value="">Tous les contrats</option>
+                        {% for ct in contract_types %}
+                        <option value="{{ ct }}" {% if ct == selected_contract_type %}selected{% endif %}>{{ ct }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="contract_type"><i class="fas fa-clock me-2"></i>Type de contrat</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary h-100 w-100">
+                    <i class="fas fa-filter me-1"></i>Filtrer
+                </button>
+            </div>
+        </form>
+
+        <!-- Filtres actifs -->
+        {% if search or selected_department or selected_contract_type %}
+        <div class="mt-3">
+            <strong>Filtres actifs:</strong>
+            {% if search %}
+                <span class="filter-badge">Recherche: "{{ search }}"</span>
+            {% endif %}
+            {% if selected_department %}
+                <span class="filter-badge">Département: {{ selected_department }}</span>
+            {% endif %}
+            {% if selected_contract_type %}
+                <span class="filter-badge">Contrat: {{ selected_contract_type }}</span>
+            {% endif %}
+            <a href="{{ url_for('offres_emploi') }}" class="btn btn-outline-secondary btn-sm ms-2">
+                <i class="fas fa-times me-1"></i>Effacer les filtres
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Statistiques -->
+<div class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">{{ jobs|length }}</span>
+                    <div class="stat-label">Offres disponibles</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">{{ departments|length }}</span>
+                    <div class="stat-label">Départements</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">{{ contract_types|length }}</span>
+                    <div class="stat-label">Types de contrats</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">Accès public</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    {% if jobs %}
+        <div class="row">
+            {% for job in jobs %}
+            <div class="col-lg-12">
+                <div class="job-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="job-title">{{ job.title }}</h3>
+                        <span class="job-reference">Réf: {{ job.reference }}</span>
+                    </div>
+
+                    <div class="job-details">
+                        <span class="job-detail">
+                            <i class="fas fa-building"></i>{{ job.department }}
+                        </span>
+                        <span class="job-detail">
+                            <i class="fas fa-map-marker-alt"></i>{{ job.location }}
+                        </span>
+                        <span class="job-detail">
+                            <i class="fas fa-clock"></i>{{ job.contract_type }}
+                        </span>
+                        <span class="job-detail">
+                            <i class="fas fa-calendar"></i>Publié le {{ job.publication_date.strftime('%d/%m/%Y') }}
+                        </span>
+                        {% if job.application_deadline %}
+                        <span class="job-detail">
+                            <i class="fas fa-calendar-times"></i>Échéance: {{ job.application_deadline.strftime('%d/%m/%Y') }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="job-description">
+                        {{ job.description[:200] }}{% if job.description|length > 200 %}...{% endif %}
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if job.salary_range %}
+                            <span class="text-success fw-bold">
+                                <i class="fas fa-money-bill-wave me-1"></i>{{ job.salary_range }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <a href="{{ url_for('offre_emploi_detail', job_id=job.id) }}" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-eye me-1"></i>Voir détails
+                            </a>
+                            <a href="{{ url_for('postuler', job_id=job.id) }}" class="btn-apply">
+                                <i class="fas fa-paper-plane me-1"></i>Postuler
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-jobs">
+            <i class="fas fa-briefcase"></i>
+            <h4>Aucune offre d'emploi trouvée</h4>
+            <p>Aucune offre ne correspond à vos critères de recherche.</p>
+            {% if search or selected_department or selected_contract_type %}
+            <a href="{{ url_for('offres_emploi') }}" class="btn btn-primary">
+                <i class="fas fa-refresh me-1"></i>Voir toutes les offres
+            </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Section d'information -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center p-4 bg-light rounded">
+                <h4 class="text-primary mb-3">Pourquoi rejoindre ONDA ?</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-plane fa-2x text-primary mb-2"></i>
+                        <h6>Secteur Aéronautique</h6>
+                        <p class="small text-muted">Travaillez dans un secteur d'avenir et contribuez au développement de l'aviation civile</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                        <h6>Équipe Dynamique</h6>
+                        <p class="small text-muted">Rejoignez une équipe passionnée et professionnelle dans un environnement stimulant</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-chart-line fa-2x text-primary mb-2"></i>
+                        <h6>Évolution de Carrière</h6>
+                        <p class="small text-muted">Bénéficiez d'opportunités d'évolution et de formation continue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

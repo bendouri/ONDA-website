@@ -1,0 +1,114 @@
+{% extends 'admin/dashboard.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Gestion des appels d'offres</h2>
+    <a href="#" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTenderModal"><i class="fas fa-plus"></i> Ajouter un appel d'offre</a>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Référence</th>
+                <th>Catégorie</th>
+                <th>Date limite</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tender in tenders %}
+            <tr>
+                <td>{{ tender.title }}</td>
+                <td>{{ tender.reference }}</td>
+                <td>{{ tender.category }}</td>
+                <td>{{ tender.deadline.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    {% if tender.status == 'active' %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('admin_edit_tender', tender_id=tender.id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{{ url_for('admin_delete_tender', tender_id=tender.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer cet appel d\'offre ?');"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if not tenders %}
+        <div class="alert alert-info">Aucun appel d'offre enregistré.</div>
+    {% endif %}
+</div>
+<!-- MODAL AJOUT APPEL D'OFFRE -->
+<div class="modal fade" id="addTenderModal" tabindex="-1" aria-labelledby="addTenderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin_call_for_tenders') }}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTenderModalLabel">Ajouter un appel d'offre</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="reference" class="form-label">Référence</label>
+            <input type="text" class="form-control" id="reference" name="reference" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Catégorie</label>
+            <input type="text" class="form-control" id="category" name="category" required>
+          </div>
+          <div class="mb-3">
+            <label for="budget_min" class="form-label">Budget min</label>
+            <input type="number" class="form-control" id="budget_min" name="budget_min" step="0.01">
+          </div>
+          <div class="mb-3">
+            <label for="budget_max" class="form-label">Budget max</label>
+            <input type="number" class="form-control" id="budget_max" name="budget_max" step="0.01">
+          </div>
+          <div class="mb-3">
+            <label for="deadline" class="form-label">Date limite</label>
+            <input type="date" class="form-control" id="deadline" name="deadline" required>
+          </div>
+          <div class="mb-3">
+            <label for="publication_date" class="form-label">Date de publication</label>
+            <input type="date" class="form-control" id="publication_date" name="publication_date" required>
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Statut</label>
+            <select class="form-select" id="status" name="status">
+              <option value="active">Actif</option>
+              <option value="inactive">Inactif</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="contact_email" class="form-label">Email de contact</label>
+            <input type="email" class="form-control" id="contact_email" name="contact_email">
+          </div>
+          <div class="mb-3">
+            <label for="contact_phone" class="form-label">Téléphone de contact</label>
+            <input type="text" class="form-control" id="contact_phone" name="contact_phone">
+          </div>
+          <div class="mb-3">
+            <label for="document_file" class="form-label">Document (PDF)</label>
+            <input type="file" class="form-control" id="document_file" name="document_file" accept=".pdf">
+            <small class="form-text text-muted">Uploadez un fichier PDF que les utilisateurs pourront télécharger</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

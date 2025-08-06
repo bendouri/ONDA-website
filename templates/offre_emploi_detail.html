@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} - ONDA{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+        color: white;
+        padding: 3rem 0 2rem;
+        margin-top: 76px;
+    }
+
+    .job-details-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        margin-top: -1rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .job-header {
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .job-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .job-meta-item {
+        background: #f8f9fa;
+        padding: 0.75rem 1.25rem;
+        border-radius: 25px;
+        font-size: 0.95rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+    }
+
+    .job-meta-item i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+    }
+
+    .job-reference {
+        background: linear-gradient(135deg, var(--accent-color) 0%, #00b894 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .job-status {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title i {
+        margin-right: 0.75rem;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .job-description {
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 2rem;
+    }
+
+    .requirements-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .requirements-list li {
+        background: #f8f9fa;
+        margin-bottom: 0.75rem;
+        padding: 1rem 1.25rem;
+        border-radius: 10px;
+        border-left: 4px solid var(--primary-color);
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .requirements-list li i {
+        color: var(--accent-color);
+        margin-right: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .benefit-item {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .benefit-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
+    }
+
+    .benefit-item i {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .benefit-item h6 {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn-apply-large {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #e55a4f 100%);
+        border: none;
+        color: white;
+        padding: 1rem 3rem;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-apply-large:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .application-cta {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        padding: 2.5rem;
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    .deadline-alert {
+        background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .deadline-alert.urgent {
+        background: linear-gradient(135deg, #dc3545 0%, #e55a4f 100%);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    .back-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #004499;
+        text-decoration: none;
+        transform: translateX(-5px);
+    }
+
+    .back-link i {
+        margin-right: 0.5rem;
+    }
+
+    :root {
+        --primary-color: #0066cc;
+        --secondary-color: #ff6b35;
+        --accent-color: #00d4aa;
+    }
+
+    @media (max-width: 768px) {
+        .job-meta {
+            flex-direction: column;
+        }
+        
+        .job-meta-item {
+            justify-content: center;
+        }
+        
+        .benefits-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold mb-3">Détail de l'offre</h1>
+                <p class="lead">Découvrez cette opportunité de carrière chez ONDA</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <a href="{{ url_for('offres_emploi') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux offres d'emploi
+            </a>
+
+            <div class="job-details-card">
+                <!-- En-tête de l'offre -->
+                <div class="job-header">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h1 class="job-title">{{ job.title }}</h1>
+                        <div>
+                            <span class="job-reference me-2">Réf: {{ job.reference }}</span>
+                            <span class="job-status">{{ job.status|title }}</span>
+                        </div>
+                    </div>
+
+                    <div class="job-meta">
+                        <div class="job-meta-item">
+                            <i class="fas fa-building"></i>
+                            {{ job.department }}
+                        </div>
+                        <div class="job-meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ job.location }}
+                        </div>
+                        <div class="job-meta-item">
+                            <i class="fas fa-clock"></i>
+                            {{ job.contract_type }}
+                        </div>
+                        <div class="job-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            Publié le {{ job.publication_date.strftime('%d/%m/%Y') }}
+                        </div>
+                        {% if job.salary_range %}
+                        <div class="job-meta-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            {{ job.salary_range }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Alerte échéance -->
+                    {% if job.application_deadline %}
+                        {% set days_left = (job.application_deadline - moment().date()).days %}
+                        {% if days_left <= 10 and days_left > 0 %}
+                        <div class="deadline-alert {% if days_left <= 3 %}urgent{% endif %}">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>
+                                {% if days_left <= 3 %}
+                                    URGENT : Plus que {{ days_left }} jour{% if days_left > 1 %}s{% endif %} pour postuler !
+                                {% else %}
+                                    Échéance dans {{ days_left }} jours ({{ job.application_deadline.strftime('%d/%m/%Y') }})
+                                {% endif %}
+                            </strong>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <!-- Description du poste -->
+                <div class="mb-4">
+                    <h3 class="section-title">
+                        <i class="fas fa-file-alt"></i>
+                        Description du poste
+                    </h3>
+                    <div class="job-description">
+                        {{ job.description|safe }}
+                    </div>
+                </div>
+
+                <!-- Exigences -->
+                {% if job.requirements %}
+                <div class="mb-4">
+                    <h3 class="section-title">
+                        <i class="fas fa-check-circle"></i>
+                        Exigences du poste
+                    </h3>
+                    <ul class="requirements-list">
+                        {% for requirement in job.requirements.split('\n') %}
+                            {% if requirement.strip() %}
+                            <li>
+                                <i class="fas fa-chevron-right"></i>
+                                {{ requirement.strip() }}
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Avantages -->
+                <div class="mb-4">
+                    <h3 class="section-title">
+                        <i class="fas fa-star"></i>
+                        Pourquoi rejoindre ONDA ?
+                    </h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="fas fa-plane"></i>
+                            <h6>Secteur Aéronautique</h6>
+                            <p class="small text-muted">Évoluez dans un secteur d'avenir et stratégique</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h6>Formation Continue</h6>
+                            <p class="small text-muted">Développez vos compétences avec nos programmes</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-users"></i>
+                            <h6>Équipe Dynamique</h6>
+                            <p class="small text-muted">Travaillez avec des professionnels passionnés</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h6>Évolution de Carrière</h6>
+                            <p class="small text-muted">Progressez dans votre parcours professionnel</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appel à l'action -->
+                <div class="application-cta">
+                    <h4 class="text-primary mb-3">Intéressé(e) par cette offre ?</h4>
+                    <p class="text-muted mb-4">
+                        Rejoignez l'équipe ONDA et contribuez au développement de l'aviation civile au Maroc. 
+                        Le processus de candidature est simple et rapide.
+                    </p>
+                    <a href="{{ url_for('postuler', job_id=job.id) }}" class="btn-apply-large">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Postuler maintenant
+                    </a>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Aucun compte requis - Candidature directe et sécurisée
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section d'information -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center p-4 bg-light rounded">
+                <h5 class="text-primary mb-3">Processus de candidature</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <i class="fas fa-user fa-2x text-primary mb-2"></i>
+                        <h6>1. Informations</h6>
+                        <p class="small text-muted">Renseignez vos données personnelles</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <i class="fas fa-briefcase fa-2x text-primary mb-2"></i>
+                        <h6>2. Expérience</h6>
+                        <p class="small text-muted">Décrivez votre parcours professionnel</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <i class="fas fa-file-upload fa-2x text-primary mb-2"></i>
+                        <h6>3. Documents</h6>
+                        <p class="small text-muted">Téléchargez CV et documents</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <i class="fas fa-heart fa-2x text-primary mb-2"></i>
+                        <h6>4. Motivation</h6>
+                        <p class="small text-muted">Exprimez votre motivation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

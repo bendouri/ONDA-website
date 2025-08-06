@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Guide du voyageur - ONDA</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 20px;
+    }
+
+    .card {
+      width: 300px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card.green {
+      background-color: #003366;
+    }
+
+    .card.purple {
+      background-color: #0f7067;
+      color: white;
+    }
+
+    .card.blue {
+      background-color: #003366;
+      color: white;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card h2 {
+      margin: 15px;
+      font-size: 1.3rem;
+      color: white;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0 15px 20px;
+      margin: 0;
+    }
+
+    .card ul li {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+
+    .card ul li::before {
+      content: "\f105";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      margin-right: 10px;
+    
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+  </div>
+
+  <section class="section">
+    <div class="onda-container">
+      <h1 class="onda-title">Guide du voyageur</h1>
+      <div class="cards-container">
+
+        <a href="det.html" class="card green">
+          <h2>Je veux me détendre</h2>
+          <img src="det.jpg" >
+        </a>
+
+        <a href="food.html" class="card purple">
+          <h2>Je veux me restaurer</h2>
+          <img src="food.png">
+        </a>
+
+        <a href="shopping.html" class="card blue">
+          <h2>Je veux faire du shopping</h2>
+          <img src="shop.jpg" >
+        </a>
+
+        <a href="transport.html" class="card purple">
+          <h2>Je veux un moyen de transport</h2>
+          <img src="transport.jpg" >
+        </a>
+
+        <a href="contact.html" class="card blue">
+          <h2>Je veux avoir une connexion</h2>
+          <img src="connection.jpg" >
+        </a>
+
+      </div>
+    </div>
+  </section>
+</body>
+</html>

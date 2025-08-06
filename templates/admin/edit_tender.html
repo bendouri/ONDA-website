@@ -1,0 +1,152 @@
+{% extends 'admin/dashboard.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Modifier l'appel d'offre</h2>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Informations de l'appel d'offre</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Titre *</label>
+                                    <input type="text" class="form-control" id="title" name="title" value="{{ tender.title }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="reference" class="form-label">Référence *</label>
+                                    <input type="text" class="form-control" id="reference" name="reference" value="{{ tender.reference }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required>{{ tender.description or '' }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Catégorie *</label>
+                                    <select class="form-select" id="category" name="category" required>
+                                        <option value="">Sélectionner...</option>
+                                        <option value="Travaux" {{ 'selected' if tender.category == 'Travaux' else '' }}>Travaux</option>
+                                        <option value="Services" {{ 'selected' if tender.category == 'Services' else '' }}>Services</option>
+                                        <option value="Fournitures" {{ 'selected' if tender.category == 'Fournitures' else '' }}>Fournitures</option>
+                                        <option value="Maintenance" {{ 'selected' if tender.category == 'Maintenance' else '' }}>Maintenance</option>
+                                        <option value="Consulting" {{ 'selected' if tender.category == 'Consulting' else '' }}>Consulting</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Statut</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="active" {{ 'selected' if tender.status == 'active' else '' }}>Actif</option>
+                                        <option value="inactive" {{ 'selected' if tender.status == 'inactive' else '' }}>Inactif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="budget_min" class="form-label">Budget minimum (DH)</label>
+                                    <input type="number" class="form-control" id="budget_min" name="budget_min" 
+                                           step="0.01" value="{{ tender.budget_min or '' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="budget_max" class="form-label">Budget maximum (DH)</label>
+                                    <input type="number" class="form-control" id="budget_max" name="budget_max" 
+                                           step="0.01" value="{{ tender.budget_max or '' }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="publication_date" class="form-label">Date de publication *</label>
+                                    <input type="date" class="form-control" id="publication_date" name="publication_date" 
+                                           value="{{ tender.publication_date.strftime('%Y-%m-%d') if tender.publication_date else '' }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="deadline" class="form-label">Date limite *</label>
+                                    <input type="date" class="form-control" id="deadline" name="deadline" 
+                                           value="{{ tender.deadline.strftime('%Y-%m-%d') if tender.deadline else '' }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="contact_email" class="form-label">Email de contact</label>
+                                    <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ tender.contact_email or '' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="contact_phone" class="form-label">Téléphone de contact</label>
+                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ tender.contact_phone or '' }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="document_url" class="form-label">URL du document</label>
+                            <input type="url" class="form-control" id="document_url" name="document_url" value="{{ tender.document_url or '' }}">
+                            <div class="form-text">Lien vers le cahier des charges ou documents annexes</div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('admin_call_for_tenders') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Retour
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Sauvegarder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Informations</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Créé le :</strong> {{ tender.created_at.strftime('%d/%m/%Y à %H:%M') }}</p>
+                    <p><strong>Créé par :</strong> {{ tender.creator.username if tender.creator else 'N/A' }}</p>
+                    {% if tender.updated_at %}
+                        <p><strong>Modifié le :</strong> {{ tender.updated_at.strftime('%d/%m/%Y à %H:%M') }}</p>
+                    {% endif %}
+                    <hr>
+                    <div class="d-grid">
+                        <form method="POST" action="{{ url_for('admin_delete_tender', tender_id=tender.id) }}" 
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet appel d\'offre ?');">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-2"></i>Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

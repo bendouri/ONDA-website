@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}Gestion des Messages de Contact - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_users') }}">
+                            <i class="fas fa-users"></i> Utilisateurs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_transport') }}">
+                            <i class="fas fa-bus"></i> Transport
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_restaurants') }}">
+                            <i class="fas fa-utensils"></i> Restaurants
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_shopping') }}">
+                            <i class="fas fa-shopping-cart"></i> Shopping
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_flights') }}">
+                            <i class="fas fa-plane"></i> Vols
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_contacts') }}">
+                            <i class="fas fa-envelope"></i> Messages de Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Messages de Contact</h1>
+            </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Messages de Contact</h2>
+    <div>
+        <span class="badge bg-info">{{ contacts|length }} messages</span>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="card">
+    <div class="card-body">
+        {% if contacts %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Sujet</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr class="{{ 'table-light' if contact.is_read else '' }}">
+                            <td>
+                                <small class="text-muted">
+                                    {{ contact.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                </small>
+                            </td>
+                            <td>
+                                <strong>{{ contact.name }}</strong>
+                            </td>
+                            <td>
+                                <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                            </td>
+                            <td>
+                                <span class="fw-bold">{{ contact.subject }}</span>
+                                <br>
+                                <small class="text-muted">
+                                    {{ contact.message[:100] }}{% if contact.message|length > 100 %}...{% endif %}
+                                </small>
+                            </td>
+                            <td>
+                                {% if contact.is_read %}
+                                    <span class="badge bg-success">Lu</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Non lu</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#viewMessageModal"
+                                            data-contact-id="{{ contact.id }}"
+                                            data-contact-name="{{ contact.name }}"
+                                            data-contact-email="{{ contact.email }}"
+                                            data-contact-subject="{{ contact.subject }}"
+                                            data-contact-message="{{ contact.message }}"
+                                            data-contact-date="{{ contact.created_at.strftime('%d/%m/%Y %H:%M') }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    {% if not contact.is_read %}
+                                    <button type="button" class="btn btn-sm btn-outline-success mark-read-btn" 
+                                            data-contact-id="{{ contact.id }}">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-sm btn-outline-danger delete-contact-btn" 
+                                            data-contact-id="{{ contact.id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Aucun message de contact</h5>
+                <p class="text-muted">Les messages de contact apparaîtront ici.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- View Message Modal -->
+<div class="modal fade" id="viewMessageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message de Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Nom:</strong> <span id="modal-name"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Email:</strong> <span id="modal-email"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Sujet:</strong> <span id="modal-subject"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Date:</strong> <span id="modal-date"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <strong>Message:</strong>
+                    <div class="border p-3 mt-2" id="modal-message"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="reply-email-btn" href="#" class="btn btn-primary">
+                    <i class="fas fa-reply"></i> Répondre par email
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // View message modal
+    const viewMessageModal = document.getElementById('viewMessageModal');
+    viewMessageModal.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        const name = button.getAttribute('data-contact-name');
+        const email = button.getAttribute('data-contact-email');
+        const subject = button.getAttribute('data-contact-subject');
+        const message = button.getAttribute('data-contact-message');
+        const date = button.getAttribute('data-contact-date');
+        
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-email').textContent = email;
+        document.getElementById('modal-subject').textContent = subject;
+        document.getElementById('modal-message').textContent = message;
+        document.getElementById('modal-date').textContent = date;
+        
+        // Set reply email link
+        const replyBtn = document.getElementById('reply-email-btn');
+        replyBtn.href = `mailto:${email}?subject=Re: ${subject}`;
+    });
+    
+    // Mark as read buttons
+    document.querySelectorAll('.mark-read-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const contactId = this.getAttribute('data-contact-id');
+            
+            fetch(`/admin/contacts/${contactId}/read`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Erreur lors de la mise à jour');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erreur lors de la mise à jour');
+            });
+        });
+    });
+    
+    // Delete contact buttons
+    document.querySelectorAll('.delete-contact-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const contactId = this.getAttribute('data-contact-id');
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                fetch(`/admin/contacts/${contactId}/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erreur lors de la suppression');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors de la suppression');
+                });
+            }
+        });
+    });
+});
+</script>
+        </main>
+    </div>
+</div>
+{% endblock %}

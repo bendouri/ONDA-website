@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Postuler - {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Postuler à : {{ job.title }}</h3>
+                    <small>Référence: {{ job.reference }} | Département: {{ job.department }}</small>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Messages Flash -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" id="candidatureForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <!-- Informations personnelles -->
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">Prénom <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Nom <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Téléphone <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Adresse <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="birth_date" class="form-label">Date de naissance <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nationality" class="form-label">Nationalité <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nationality" name="nationality" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="education_level" class="form-label">Niveau d'études <span class="text-danger">*</span></label>
+                                <select class="form-control" id="education_level" name="education_level" required>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Bac">Bac</option>
+                                    <option value="Bac+2">Bac+2</option>
+                                    <option value="Bac+3">Bac+3</option>
+                                    <option value="Bac+5">Bac+5</option>
+                                    <option value="Doctorat">Doctorat</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="experience_years" class="form-label">Années d'expérience <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="experience_years" name="experience_years" min="0" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="current_position" class="form-label">Poste actuel</label>
+                            <input type="text" class="form-control" id="current_position" name="current_position">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="skills" class="form-label">Compétences <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="skills" name="skills" rows="3" placeholder="Listez vos principales compétences..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="languages" class="form-label">Langues parlées</label>
+                            <input type="text" class="form-control" id="languages" name="languages" placeholder="Ex: Français, Anglais, Arabe">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cv_file" class="form-label">CV (PDF recommandé)</label>
+                            <input type="file" class="form-control" id="cv_file" name="cv_file" accept=".pdf,.doc,.docx">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cover_letter_file" class="form-label">Lettre de motivation</label>
+                            <input type="file" class="form-control" id="cover_letter_file" name="cover_letter_file" accept=".pdf,.doc,.docx">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="diploma_file" class="form-label">Diplômes</label>
+                            <input type="file" class="form-control" id="diploma_file" name="diploma_file" accept=".pdf,.doc,.docx">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="motivation_letter" class="form-label">Message de motivation <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="motivation_letter" name="motivation_letter" rows="4" placeholder="Expliquez pourquoi vous souhaitez rejoindre ONDA..." required></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i> Soumettre ma candidature
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('offre_emploi_detail', job_id=job.id) }}" class="btn btn-link">&larr; Retour à l'offre</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Validation simple avant soumission
+document.getElementById('candidatureForm').addEventListener('submit', function(e) {
+    console.log('DEBUG: Formulaire en cours de soumission...');
+    
+    // Désactiver le bouton pour éviter les doubles soumissions
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+    
+    console.log('DEBUG: Validation OK, soumission en cours...');
+});
+</script>
+{% endblock %}

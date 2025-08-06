@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <title>ONDA - Accueil</title>
+    <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+ 
+</head>
+
+<body>
+    <div class="topnav">
+  <a href="#info">Acceuil</a>
+  <a href="#carte-aeroports">Nos aéroports</a>
+  <a href="services.html">Services</a>
+  <a href="login.html" class="logout">Login</a>
+  <a href="login.html" class="logout">Logout</a>
+</div>
+
+  <br> 
+<div id="info" class="section">
+<div class="hero">
+ <img src="hero.jpg" class="hero-image">
+
+  <div class="hero-text">
+    <h2 class="animated-text">Bienvenue sur le site officiel de l'ONDA</h2>
+  </div>
+</div>
+
+    <section class="onda-about">
+  <div class="onda-container">
+    <h1 class="onda-title">Qui sommes-nous ?</h1>
+    <p class="onda-text">
+      L'Office National des Aéroports (ONDA) est l'organisme public chargé de gérer et de développer les aéroports du Maroc.
+      Nous nous occupons de plus de 20 aéroports à travers le pays, en veillant à ce qu'ils soient modernes, bien équipés et accueillants pour tous.
+      Que ce soit pour un voyage d'affaires, des vacances ou une visite en famille, nous faisons tout pour que votre passage dans nos aéroports soit confortable et sécurisé.
+    </p>
+    <section class="onda-map" id="carte-aeroports">
+  <h2 class="onda-subtitle">Carte interactive de nos aéroports</h2>
+  <div id="map"></div>
+</section>
+
+
+  <h1>Historique de l'ONDA</h1>
+
+  <ul class="timeline">
+    <li class="timeline-item">
+      <h3>1990</h3>
+      <p>Création officielle de l'ONDA</p>
+    </li>
+    <li class="timeline-item">
+      <h3>2004</h3>
+      <p>Modernisation des grands aéroports (Casablanca, Marrakech, Agadir…)</p>
+    </li>
+    <li class="timeline-item">
+      <h3>2010</h3>
+      <p>Nouveaux systèmes de sécurité et d’accueil</p>
+    </li>
+    <li class="timeline-item">
+      <h3>2018</h3>
+      <p>Inauguration du Terminal 1 de l'aéroport Mohammed V</p>
+    </li>
+    <li class="timeline-item">
+      <h3>2020-2022</h3>
+      <p>Adaptation des services face à la pandémie COVID-19</p>
+    </li>
+    <li class="timeline-item">
+      <h3>Aujourd'hui</h3>
+      <p>L'ONDA continue d'innover pour faire de ses aéroports des espaces intelligents, durables et à la hauteur des standards internationaux</p>
+    </li>
+  </ul>
+    <p class="onda-title">
+      À l'ONDA, nous croyons que bien voyager commence dès l'aéroport. Nous sommes fiers d'accompagner chaque passager dans ce moment important de son voyage.
+    </p>
+  </div>
+</section>
+<a href="info.html" style="
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #004080;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s;">
+  -> Découvrez encore plus l'ONDA <-
+</a>
+
+<footer class="onda-footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="#info">Qui sommes-nous ?</a></li>
+        <li><a href="#carte-aeroports">Nos aéroports</a></li>
+        <li><a href="login.html">Espace personnel</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Contact</h3>
+      <p><i class="fas fa-envelope"></i> Email : contact@onda.ma</p>
+      <p><i class="fas fa-phone"></i> Téléphone : +212 5 X X X X</p>
+      <p><i class="fas fa-map-marker-alt"></i> Siège social : Aéroport Mohammed V, Casablanca</p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Suivez-nous</h3>  
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/company/moroccan-aviation-services/posts/?feedView=all" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 ONDA - Office National des Aéroports. Tous droits réservés.</p>
+  </div>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const map = L.map("map").setView([31.7917, -7.0926], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    const aeroports = [
+      { nom: "Casablanca - Mohammed V", lat: 33.367, lon: -7.589 },
+      { nom: "Marrakech - Ménara", lat: 31.605, lon: -8.036 },
+      { nom: "Agadir - Al Massira", lat: 30.325, lon: -9.413 },
+      { nom: "Fès - Saïs", lat: 33.927, lon: -4.978 },
+      { nom: "Rabat - Salé", lat: 34.05, lon: -6.75 },
+      { nom: "Tanger - Ibn Battouta", lat: 35.726, lon: -5.917 },
+      { nom: "Oujda - Angads", lat: 34.787, lon: -1.923 },
+      { nom: "Laâyoune - Hassan Ier", lat: 27.151, lon: -13.219 },
+      { nom: "Dakhla", lat: 23.717, lon: -15.933 },
+      { nom: "Nador - El Aroui", lat: 34.988, lon: -3.027 }
+    ];
+
+    aeroports.forEach(aero => {
+      L.marker([aero.lat, aero.lon])
+        .addTo(map)
+        .bindPopup(`<strong>${aero.nom}</strong>`);
+    });
+  });
+</script>
+</body>
+<button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="myBtn" title="Go to top">↑</button>
+</html>

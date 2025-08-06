@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}Transport - ONDA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/transport.css') }}">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="transport-hero">
+    <div class="hero-overlay"></div>
+    <div class="floating-vehicles">
+        <div class="floating-vehicle vehicle-1">
+            <i class="fas fa-bus"></i>
+        </div>
+        <div class="floating-vehicle vehicle-2">
+            <i class="fas fa-taxi"></i>
+        </div>
+        <div class="floating-vehicle vehicle-3">
+            <i class="fas fa-subway"></i>
+        </div>
+        <div class="floating-vehicle vehicle-4">
+            <i class="fas fa-car"></i>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="hero-title">Services de Transport</h1>
+                <p class="hero-subtitle">Découvrez tous les moyens de transport disponibles pour vous déplacer facilement vers et depuis nos aéroports</p>
+                <div class="hero-buttons">
+                    <a href="#transport-search" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-search me-2"></i>Rechercher
+                    </a>
+                    <a href="#transport-info" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Informations
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="hero-stats">
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>{{ transports|length }}</h3>
+                            <p>Services Disponibles</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>24/7</h3>
+                            <p>Service Continu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Transport Search & Filters -->
+<section id="transport-search" class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Filters -->
+            <div class="col-lg-3 mb-4">
+                <div class="filter-sidebar" data-aos="fade-right">
+                    <div class="filter-header">
+                        <h4><i class="fas fa-filter me-2"></i>Filtres de Recherche</h4>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Ville</label>
+                        <select class="form-select filter-select" id="cityFilter">
+                            <option value="">Toutes les villes</option>
+                            {% set cities = [] %}
+                            {% for transport in transports %}
+                                {% if transport.city not in cities %}
+                                    {% set _ = cities.append(transport.city) %}
+                                    <option value="{{ transport.city }}">{{ transport.city }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Type de Transport</label>
+                        <select class="form-select filter-select" id="typeFilter">
+                            <option value="">Tous les types</option>
+                            <option value="taxi">🚕 Taxi</option>
+                            <option value="bus">🚌 Bus</option>
+                            <option value="tram">🚊 Tram</option>
+                            <option value="train">🚄 Train</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Recherche</label>
+                        <div class="search-box">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un service...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-outline-primary w-100 mt-3" id="clearFilters">
+                        <i class="fas fa-times me-2"></i>Effacer les filtres
+                    </button>
+                    
+                    <!-- Quick Links -->
+                    <div class="quick-links mt-4">
+                        <h5>Liens Rapides</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#"><i class="fas fa-map-marker-alt me-2"></i>Plan des transports</a></li>
+                            <li><a href="#"><i class="fas fa-clock me-2"></i>Horaires</a></li>
+                            <li><a href="#"><i class="fas fa-phone me-2"></i>Contact transport</a></li>
+                            <li><a href="#"><i class="fas fa-ticket-alt me-2"></i>Réservation</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transport Cards -->
+            <div class="col-lg-9">
+                <div class="transport-header mb-4" data-aos="fade-up">
+                    <h2>Services de Transport Disponibles</h2>
+                    <p class="text-muted">Choisissez le moyen de transport qui vous convient le mieux</p>
+                </div>
+                
+                <div class="row" id="transportCards">
+                    {% for transport in transports %}
+                    <div class="col-md-6 col-lg-4 mb-4 transport-card" 
+                         data-city="{{ transport.city }}" 
+                         data-type="{{ transport.type }}"
+                         data-aos="fade-up" 
+                         data-aos-delay="{{ loop.index0 * 100 }}">
+                        <div class="transport-item">
+                            <div class="transport-badge">
+                                {% if transport.type == 'taxi' %}
+                                    <i class="fas fa-taxi"></i>
+                                {% elif transport.type == 'bus' %}
+                                    <i class="fas fa-bus"></i>
+                                {% elif transport.type == 'tram' %}
+                                    <i class="fas fa-subway"></i>
+                                {% elif transport.type == 'train' %}
+                                    <i class="fas fa-train"></i>
+                                {% else %}
+                                    <i class="fas fa-car"></i>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="transport-content">
+                                <h4 class="transport-name">{{ transport.name }}</h4>
+                                <p class="transport-description">{{ transport.description }}</p>
+                                
+                                <div class="transport-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>{{ transport.city }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-tag"></i>
+                                        <span>{{ transport.type.title() }}</span>
+                                    </div>
+                                    <div class="detail-item price">
+                                        <i class="fas fa-euro-sign"></i>
+                                        <span>{{ transport.price }}€</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="transport-actions">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-phone me-1"></i>Contacter
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i>Détails
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- No Results Message -->
+                <div id="noResults" class="text-center py-5" style="display: none;">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Aucun transport trouvé</h4>
+                    <p class="text-muted">Essayez de modifier vos critères de recherche</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Transport Info Section -->
+<section id="transport-info" class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h2 class="mb-4">Informations Pratiques</h2>
+                <p class="lead mb-5">Tout ce que vous devez savoir sur les transports vers nos aéroports</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Horaires</h4>
+                    <p>Services disponibles 24h/24 et 7j/7 pour vous accompagner à tout moment</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h4>Paiement</h4>
+                    <p>Acceptation de tous les modes de paiement : espèces, cartes bancaires, mobile</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Sécurité</h4>
+                    <p>Tous nos partenaires transport sont agréés et respectent les normes de sécurité</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+// Initialize AOS
+AOS.init({
+    duration: 800,
+    easing: 'ease-in-out',
+    once: true
+});
+
+// Transport filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const cityFilter = document.getElementById('cityFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const searchInput = document.getElementById('searchInput');
+    const clearFilters = document.getElementById('clearFilters');
+    const transportCards = document.querySelectorAll('.transport-card');
+    const noResults = document.getElementById('noResults');
+
+    function filterTransports() {
+        const selectedCity = cityFilter.value.toLowerCase();
+        const selectedType = typeFilter.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase();
+        let visibleCount = 0;
+
+        transportCards.forEach(card => {
+            const cardCity = card.getAttribute('data-city').toLowerCase();
+            const cardType = card.getAttribute('data-type').toLowerCase();
+            const cardText = card.textContent.toLowerCase();
+
+            const cityMatch = !selectedCity || cardCity.includes(selectedCity);
+            const typeMatch = !selectedType || cardType === selectedType;
+            const searchMatch = !searchTerm || cardText.includes(searchTerm);
+
+            if (cityMatch && typeMatch && searchMatch) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    function clearAllFilters() {
+        cityFilter.value = '';
+        typeFilter.value = '';
+        searchInput.value = '';
+        filterTransports();
+    }
+
+    // Event listeners
+    cityFilter.addEventListener('change', filterTransports);
+    typeFilter.addEventListener('change', filterTransports);
+    searchInput.addEventListener('input', filterTransports);
+    clearFilters.addEventListener('click', clearAllFilters);
+
+    // Smooth scrolling for hero buttons
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

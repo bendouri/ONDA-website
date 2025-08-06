@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bagages - Règles et limites</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f5f8fc;
+    }
+
+    .topnav {
+      background-color: #003366;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .topnav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+
+    .topnav a:hover {
+      background-color: #005599;
+      border-radius: 5px;
+    }
+
+    .baggage-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      line-height: 1.7;
+    }
+
+    .baggage-section h1 {
+      color: #003366;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .slide-container {
+      position: relative;
+      margin: 30px 0;
+    }
+
+    .slide {
+      display: none;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide h3 {
+      margin-top: 0;
+      color: #003366;
+    }
+
+    .slide p {
+      margin: 8px 0;
+    }
+
+    .slide img.logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 80px;
+      height: auto;
+    }
+
+    .slide-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .slide-buttons button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 14px;
+      border: none;
+      background-color: #005599;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .slide-buttons button:hover {
+      background-color: #003f73;
+    }
+
+    .slide-counter {
+      text-align: center;
+      margin-top: 10px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    h2 {
+      color: #003366;
+      margin-top: 40px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+    .slide.ram       { background-color: #f8dcdc; }
+    .slide.airfrance { background-color: rgb(176, 175, 253); }
+    .slide.ryanair   { background-color: #fff2b3; }
+    .slide.transavia { background-color: #d6f4e6; }
+    .slide.turkish   { background-color: #fbd7e4; }
+
+    @media screen and (max-width: 600px) {
+      .slide-buttons button {
+        width: 40%;
+        margin: 5px;
+      }
+
+      .slide img.logo {
+        width: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+    <a href="formalites.html">Retour aux formalités</a>
+  </div>
+
+  <section class="baggage-section">
+    <h1>Informations sur les bagages</h1>
+    <p>Chaque compagnie aérienne applique ses propres règles concernant le poids, la taille et le nombre de bagages autorisés. Voici un aperçu général :</p>
+
+    <div class="slide-container">
+      <div class="slide ram active">
+        <img src="ram.png" alt="Royal Air Maroc" class="logo">
+        <h3>Royal Air Maroc</h3>
+        <p><strong>Bagage cabine :</strong> 1 pièce, max. 10 kg</p>
+        <p><strong>Bagage en soute :</strong> 1 pièce, max. 23 kg (économique)</p>
+      </div>
+      <div class="slide airfrance">
+        <img src="airf.png" alt="Air France" class="logo">
+        <h3>Air France</h3>
+        <p><strong>Bagage cabine :</strong> 1 pièce + accessoire, max. 12 kg</p>
+        <p><strong>Bagage en soute :</strong> 1 pièce, max. 23 kg (économique)</p>
+      </div>
+      <div class="slide ryanair">
+        <img src="ryanair.png" alt="Ryanair" class="logo">
+        <h3>Ryanair</h3>
+        <p><strong>Bagage cabine :</strong> Petit sac gratuit (40 x 20 x 25 cm), bagage cabine payant jusqu’à 10 kg</p>
+        <p><strong>Bagage en soute :</strong> Payant, jusqu’à 20 kg</p>
+      </div>
+      <div class="slide transavia">
+        <img src="trans.png" alt="Transavia" class="logo">
+        <h3>Transavia</h3>
+        <p><strong>Bagage cabine :</strong> 1 pièce max. 10 kg</p>
+        <p><strong>Bagage en soute :</strong> Payant, jusqu’à 20 ou 32 kg</p>
+      </div>
+      <div class="slide turkish">
+        <img src="tar.png" alt="Turkish Airlines" class="logo">
+        <h3>Turkish Airlines</h3>
+        <p><strong>Bagage cabine :</strong> 1 pièce, max. 8 kg</p>
+        <p><strong>Bagage en soute :</strong> 1 pièce, max. 30 kg (économique)</p>
+      </div>
+
+      <div class="slide-buttons">
+        <button onclick="changeSlide(-1)">Précédent</button>
+        <button onclick="changeSlide(1)">Suivant</button>
+      </div>
+
+      <div class="slide-counter" id="slideCounter">1 / 5</div>
+    </div>
+
+    <h2>Conseils pour vos bagages</h2>
+    <ul>
+      <li>Vérifiez toujours les conditions de votre billet avant le départ.</li>
+      <li>Pesez vos bagages à la maison pour éviter les frais d’excédent.</li>
+      <li>Les objets dangereux ou interdits en cabine doivent être placés en soute ou laissés chez vous.</li>
+      <li>Mettez vos objets de valeur (documents, argent, électronique) dans votre bagage cabine.</li>
+    </ul>
+
+    <h2>Dimensions standards du bagage cabine</h2>
+    <p>En général, la taille maximale autorisée est de 55 x 35 x 25 cm, mais elle peut varier selon la compagnie.</p>
+
+    <h2>Les règles d'or pour vos bagages</h2>
+    <p>Pour éviter toute confusion lors de l'enregistrement, retirez les anciennes étiquettes collées sur vos bagages. Indiquez lisiblement votre nom et votre adresse à l'intérieur et à l'extérieur de vos bagages. Il est conseillé d'apposer sur chacun d'eux un signe distinctif (autocollant, ruban…) pour les repérer plus facilement à l'arrivée. Ne transportez pas d'objets de valeur dans vos bagages de soute. Gardez vos traitements médicaux et ordonnances avec vous. Emballez soigneusement tout objet fragile. N'acceptez aucun bagage ou colis d'un tiers, quel qu'en soit le motif. Ne laissez jamais vos bagages sans surveillance, même durant un court instant. Signalez aux agents de l'aéroport tout bagage ou colis abandonné.</p>
+  </section>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('slideCounter');
+
+    function updateCounter() {
+      counter.textContent = (currentSlide + 1) + ' / ' + slides.length;
+    }
+
+    function changeSlide(direction) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      updateCounter();
+    }
+
+    updateCounter(); // Initialiser compteur au démarrage
+  </script>
+
+</body>
+</html>

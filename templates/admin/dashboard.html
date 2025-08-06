@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - ONDA{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Administration</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-tachometer-alt"></i> Tableau de bord
+                    </a>
+                    <a href="{{ url_for('admin_users') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-users"></i> Utilisateurs
+                    </a>
+                    <a href="{{ url_for('admin_transport') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-bus"></i> Transport
+                    </a>
+                    <a href="{{ url_for('admin_restaurants') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-utensils"></i> Restaurants
+                    </a>
+                    <a href="{{ url_for('admin_shopping') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shopping-cart"></i> Shopping
+                    </a>
+                    <a href="{{ url_for('admin_flights') }}" class="list-group-item list-group-item-action">
+    <i class="fas fa-plane"></i> Vols
+</a>
+<a href="{{ url_for('admin_job_offers') }}" class="list-group-item list-group-item-action">
+    <i class="fas fa-briefcase"></i> Offres d'emploi
+</a>
+<a href="{{ url_for('admin_call_for_tenders') }}" class="list-group-item list-group-item-action">
+    <i class="fas fa-file-contract"></i> Appels d'offres
+</a>
+<a href="{{ url_for('admin_candidatures') }}" class="list-group-item list-group-item-action">
+    <i class="fas fa-users"></i> Candidatures
+</a>
+                    <a href="{{ url_for('admin_contacts') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-envelope"></i> Messages de Contact
+                        {% if contacts and contacts|selectattr('is_read', 'equalto', false)|list|length > 0 %}
+                            <span class="badge bg-danger ms-2">{{ contacts|selectattr('is_read', 'equalto', false)|list|length }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Tableau de bord administrateur</h2>
+                    <p class="text-muted">Bienvenue, {{ current_user.username }}!</p>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ stats.users }}</h4>
+                                    <p class="mb-0">Utilisateurs</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ stats.restaurants }}</h4>
+                                    <p class="mb-0">Restaurants</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-utensils fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-info">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ stats.transports }}</h4>
+                                    <p class="mb-0">Transports</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-bus fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ stats.shops }}</h4>
+                                    <p class="mb-0">Shopping</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-shopping-cart fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Actions rapides</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('admin_users') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Ajouter un utilisateur
+                                </a>
+                                <a href="{{ url_for('admin_restaurants') }}" class="btn btn-success">
+                                    <i class="fas fa-plus"></i> Ajouter un restaurant
+                                </a>
+                                <a href="{{ url_for('admin_transport') }}" class="btn btn-info">
+                                    <i class="fas fa-plus"></i> Ajouter un transport
+                                </a>
+                                <a href="{{ url_for('admin_shopping') }}" class="btn btn-warning">
+                                    <i class="fas fa-plus"></i> Ajouter un centre commercial
+                                </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Activity Logs Card -->
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-history"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="card-title mb-1">Activités</h6>
+                            <h4 class="mb-0">{{ recent_activities|length }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- Activity Logs Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-history"></i> Activité Récente
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_activities %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Utilisateur</th>
+                                        <th>Action</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for activity in recent_activities %}
+                                    <tr>
+                                        <td>
+                                            <small class="text-muted">
+                                                {{ activity.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary">
+                                                {{ activity.user.username }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if activity.action == 'CREATE' %}
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-plus"></i> Création
+                                                </span>
+                                            {% elif activity.action == 'UPDATE' %}
+                                                <span class="badge bg-warning">
+                                                    <i class="fas fa-edit"></i> Modification
+                                                </span>
+                                            {% elif activity.action == 'DELETE' %}
+                                                <span class="badge bg-danger">
+                                                    <i class="fas fa-trash"></i> Suppression
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ activity.entity_type }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ activity.description }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Aucune activité récente</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

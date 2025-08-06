@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Mes candidatures{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Mes candidatures</h2>
+    {% if applications %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Offre</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                <tr>
+                    <td>{{ app.job_offer.title }}</td>
+                    <td>{{ app.applied_at.strftime('%d/%m/%Y') }}</td>
+                    <td>
+                        {% if app.status == 'pending' %}
+                            <span class="badge bg-secondary">En attente</span>
+                        {% elif app.status == 'reviewed' %}
+                            <span class="badge bg-info text-dark">En cours</span>
+                        {% elif app.status == 'accepted' %}
+                            <span class="badge bg-success">Acceptée</span>
+                        {% elif app.status == 'rejected' %}
+                            <span class="badge bg-danger">Refusée</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">Vous n'avez soumis aucune candidature.</div>
+    {% endif %}
+</div>
+{% endblock %}

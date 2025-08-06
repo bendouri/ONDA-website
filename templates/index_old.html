@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}ONDA - Accueil{% endblock %}
+
+{% block content %}
+<div id="info" class="section">
+    <div class="hero">
+        <img src="{{ url_for('static', filename='images/hero.jpg') }}" class="hero-image" alt="ONDA Hero">
+        <div class="hero-text">
+            <h2 class="animated-text">Bienvenue sur le site officiel de l'ONDA</h2>
+        </div>
+    </div>
+
+    <section class="onda-about">
+        <div class="onda-container">
+            <h1 class="onda-title">Qui sommes-nous ?</h1>
+            <p class="onda-text">
+                L'Office National des Aéroports (ONDA) est l'organisme public chargé de gérer et de développer les aéroports du Maroc.
+                Nous nous occupons de plus de 20 aéroports à travers le pays, en veillant à ce qu'ils soient modernes, bien équipés et accueillants pour tous.
+                Que ce soit pour un voyage d'affaires, des vacances ou une visite en famille, nous faisons tout pour que votre passage dans nos aéroports soit confortable et sécurisé.
+            </p>
+            
+            <section class="onda-map" id="carte-aeroports">
+                <h2 class="onda-subtitle">Carte interactive de nos aéroports</h2>
+                <div id="map"></div>
+            </section>
+
+            <!-- Latest News Section -->
+            {% if news %}
+            <section class="news-section mt-5">
+                <h2 class="onda-subtitle">Actualités</h2>
+                <div class="row">
+                    {% for article in news %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            {% if article.image_url %}
+                            <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.content[:150] }}...</p>
+                                <small class="text-muted">{{ article.created_at.strftime('%d/%m/%Y') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <h1>Historique de l'ONDA</h1>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <h3>1990</h3>
+                    <p>Création officielle de l'ONDA</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>2004</h3>
+                    <p>Modernisation des grands aéroports (Casablanca, Marrakech, Agadir…)</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>2010</h3>
+                    <p>Nouveaux systèmes de sécurité et d'accueil</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>2018</h3>
+                    <p>Inauguration du Terminal 1 de l'aéroport Mohammed V</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>2020-2022</h3>
+                    <p>Adaptation des services face à la pandémie COVID-19</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>Aujourd'hui</h3>
+                    <p>L'ONDA continue d'innover pour faire de ses aéroports des espaces intelligents, durables et à la hauteur des standards internationaux</p>
+                </li>
+            </ul>
+            
+            <p class="onda-title">
+                À l'ONDA, nous croyons que bien voyager commence dès l'aéroport. Nous sommes fiers d'accompagner chaque passager dans ce moment important de son voyage.
+            </p>
+        </div>
+    </section>
+    
+    <div class="text-center">
+        <a href="{{ url_for('info') }}" class="btn btn-primary btn-lg">
+            → Découvrez encore plus l'ONDA ←
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize map
+    const map = L.map("map").setView([31.7917, -7.0926], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Load airports from API
+    fetch('/api/airports')
+        .then(response => response.json())
+        .then(airports => {
+            airports.forEach(airport => {
+                L.marker([airport.latitude, airport.longitude])
+                    .addTo(map)
+                    .bindPopup(`
+                        <strong>${airport.name}</strong><br>
+                        <em>${airport.city}</em><br>
+                        Code: ${airport.code}<br>
+                        ${airport.description || ''}
+                    `);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading airports:', error);
+            // Fallback to static data
+            const staticAirports = [
+                { name: "Casablanca - Mohammed V", lat: 33.367, lon: -7.589, city: "Casablanca", code: "CMN" },
+                { name: "Marrakech - Ménara", lat: 31.605, lon: -8.036, city: "Marrakech", code: "RAK" },
+                { name: "Agadir - Al Massira", lat: 30.325, lon: -9.413, city: "Agadir", code: "AGA" },
+                { name: "Fès - Saïs", lat: 33.927, lon: -4.978, city: "Fès", code: "FEZ" },
+                { name: "Rabat - Salé", lat: 34.05, lon: -6.75, city: "Rabat", code: "RBA" },
+                { name: "Tanger - Ibn Battouta", lat: 35.726, lon: -5.917, city: "Tanger", code: "TNG" }
+            ];
+            
+            staticAirports.forEach(airport => {
+                L.marker([airport.lat, airport.lon])
+                    .addTo(map)
+                    .bindPopup(`<strong>${airport.name}</strong><br><em>${airport.city}</em>`);
+            });
+        });
+});
+</script>
+{% endblock %}

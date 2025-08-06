@@ -1,0 +1,1512 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - ONDA{% endblock %}
+
+{% block content %}
+    <!-- Fullscreen Hero Slider -->
+    <div class="fullscreen-hero">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" alt="Aéroport Mohammed V" class="slide-bg">
+                        <div class="slide-overlay"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Terminaux Modernes" class="slide-bg">
+                        <div class="slide-overlay"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Services Premium" class="slide-bg">
+                        <div class="slide-overlay"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1569154941061-e231b4725ef1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Destinations Mondiales" class="slide-bg">
+                        <div class="slide-overlay"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        
+        <!-- Floating Welcome Card -->
+        <div class="welcome-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="card-content">
+                <div class="card-header">
+                    <div class="logo-section">
+                        <i class="fas fa-plane-departure"></i>
+                        <h1>Bienvenue à l' <span class="text-gradient">ONDA</span></h1>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="welcome-subtitle">Office National Des Aéroports</p>
+                    <p class="welcome-description">Votre porte d'entrée vers le Maroc et le monde entier</p>
+                    <div class="action-buttons">
+                        <a href="#services" class="btn btn-primary btn-modern">
+                            <i class="fas fa-rocket me-2"></i>Découvrir nos services
+                        </a>
+                        <a href="{{ url_for('flights') }}" class="btn btn-outline-modern">
+                            <i class="fas fa-search me-2"></i>Rechercher un vol
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-count="20">0</h3>
+                        <p class="stat-label">Aéroports</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-count="25">0</h3><span class="stat-suffix">M+</span>
+                        <p class="stat-label">Passagers/an</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-count="150">0</h3><span class="stat-suffix">+</span>
+                        <p class="stat-label">Destinations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-count="50">0</h3><span class="stat-suffix">+</span>
+                        <p class="stat-label">Années d'expérience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="services-section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <h2 class="section-title">Nos Services</h2>
+            <p class="section-subtitle">Découvrez l'ensemble de nos services pour faciliter votre voyage</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>Vols en Temps Réel</h4>
+                        <p>Consultez les horaires de vols, statuts et informations en temps réel.</p>
+                        <a href="{{ url_for('flights') }}" class="service-link">
+                            Rechercher un vol <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>Transport & Accès</h4>
+                        <p>Solutions de transport pour rejoindre facilement nos aéroports.</p>
+                        <a href="{{ url_for('transport') }}" class="service-link">
+                            Options transport <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>Restauration</h4>
+                        <p>Découvrez nos restaurants et options de restauration.</p>
+                        <a href="{{ url_for('food') }}" class="service-link">
+                            Voir les restaurants <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section id="carte-aeroports" class="airports-section py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Réseau Aéroportuaire National</h2>
+            <p class="section-subtitle">Découvrez notre réseau d'aéroports à travers le Maroc</p>
+            <div class="section-divider mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-8 mb-4">
+                <div class="map-container shadow-lg rounded-3 overflow-hidden" data-aos="fade-right">
+                    <div id="map" style="height: 600px;"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="airports-list bg-white p-4 rounded-3 shadow-sm h-100" data-aos="fade-left">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0"><i class="fas fa-plane-departure me-2 text-primary"></i>Aéroports Principaux</h4>
+                        <span class="badge bg-primary">4 Aéroports</span>
+                    </div>
+                    
+                    <div class="airport-list-container" style="max-height: 500px; overflow-y: auto;">
+                        <div class="airport-item p-3 mb-3 rounded-3 border hover-shadow" onclick="focusOnMap(33.3675, -7.5897, 'Mohammed V - Casablanca')">
+                            <div class="d-flex align-items-start">
+                                <div class="airport-icon bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-plane text-primary"></i>
+                                </div>
+                                <div class="airport-info">
+                                    <h5 class="mb-1">Mohammed V (CMN)</h5>
+                                    <p class="text-muted small mb-1">Casablanca - Principal hub international</p>
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">8.5M passagers/an</span>
+                                        <span class="badge bg-success bg-opacity-10 text-success">2 pistes</span>
+                                        <span class="badge bg-info bg-opacity-10 text-info">50+ compagnies</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                                        <a href="#" class="text-muted small"><i class="fas fa-route me-1"></i>Itinéraire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="airport-item p-3 mb-3 rounded-3 border hover-shadow" onclick="focusOnMap(31.6069, -8.0363, 'Ménara - Marrakech')">
+                            <div class="d-flex align-items-start">
+                                <div class="airport-icon bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-plane text-primary"></i>
+                                </div>
+                                <div class="airport-info">
+                                    <h5 class="mb-1">Ménara (RAK)</h5>
+                                    <p class="text-muted small mb-1">Marrakech - Porte touristique du Sud</p>
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">6.2M passagers/an</span>
+                                        <span class="badge bg-success bg-opacity-10 text-success">1 piste</span>
+                                        <span class="badge bg-info bg-opacity-10 text-info">30+ compagnies</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                                        <a href="#" class="text-muted small"><i class="fas fa-route me-1"></i>Itinéraire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="airport-item p-3 mb-3 rounded-3 border hover-shadow" onclick="focusOnMap(35.7267, -5.9169, 'Ibn Battouta - Tanger')">
+                            <div class="d-flex align-items-start">
+                                <div class="airport-icon bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-plane text-primary"></i>
+                                </div>
+                                <div class="airport-info">
+                                    <h5 class="mb-1">Ibn Battouta (TNG)</h5>
+                                    <p class="text-muted small mb-1">Tanger - Porte vers l'Europe</p>
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">1.8M passagers/an</span>
+                                        <span class="badge bg-success bg-opacity-10 text-success">1 piste</span>
+                                        <span class="badge bg-info bg-opacity-10 text-info">15+ compagnies</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                                        <a href="#" class="text-muted small"><i class="fas fa-route me-1"></i>Itinéraire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="airport-item p-3 mb-3 rounded-3 border hover-shadow" onclick="focusOnMap(30.3281, -9.4131, 'Al Massira - Agadir')">
+                            <div class="d-flex align-items-start">
+                                <div class="airport-icon bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                                    <i class="fas fa-plane text-primary"></i>
+                                </div>
+                                <div class="airport-info">
+                                    <h5 class="mb-1">Al Massira (AGA)</h5>
+                                    <p class="text-muted small mb-1">Agadir - Porte du Sud marocain</p>
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">1.5M passagers/an</span>
+                                        <span class="badge bg-success bg-opacity-10 text-success">1 piste</span>
+                                        <span class="badge bg-info bg-opacity-10 text-info">20+ compagnies</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                                        <a href="#" class="text-muted small"><i class="fas fa-route me-1"></i>Itinéraire</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('services') }}" class="btn btn-primary px-4">
+                            <i class="fas fa-list me-2"></i>Voir tous les aéroports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+
+    // Initialize map with better options
+    var map = L.map('map', {
+        center: [31.7917, -7.0926],
+        zoom: 6,
+        zoomControl: true,
+        scrollWheelZoom: true
+    });
+    
+    // Add OpenStreetMap base layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }).addTo(map);
+    
+    // Custom icon for airports
+    var airportIcon = L.icon({
+        iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+    
+    // Liste complète des aéroports du Maroc
+    var airports = [
+        {
+            name: "Aéroport Mohammed V (CMN)",
+            city: "Casablanca",
+            icao: "GMMN",
+            iata: "CMN",
+            lat: 33.3675,
+            lng: -7.5897,
+            passengers: "8.5M",
+            runways: 2,
+            terminals: 2,
+            type: "International"
+        },
+        {
+            name: "Aéroport Ménara (RAK)",
+            city: "Marrakech",
+            icao: "GMMX",
+            iata: "RAK",
+            lat: 31.6069,
+            lng: -8.0363,
+            passengers: "6.2M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Ibn Battouta (TNG)",
+            city: "Tanger",
+            icao: "GMTT",
+            iata: "TNG",
+            lat: 35.7267,
+            lng: -5.9169,
+            passengers: "1.8M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Al Massira (AGA)",
+            city: "Agadir",
+            icao: "GMAD",
+            iata: "AGA",
+            lat: 30.3281,
+            lng: -9.4131,
+            passengers: "1.5M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Fès-Saïss (FEZ)",
+            city: "Fès",
+            icao: "GMFF",
+            iata: "FEZ",
+            lat: 33.9273,
+            lng: -4.9780,
+            passengers: "1.2M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Rabat-Salé (RBA)",
+            city: "Rabat",
+            icao: "GMME",
+            iata: "RBA",
+            lat: 34.0515,
+            lng: -6.7515,
+            passengers: "1.0M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Oujda Angads (OUD)",
+            city: "Oujda",
+            icao: "GMFO",
+            iata: "OUD",
+            lat: 34.7872,
+            lng: -1.9239,
+            passengers: "0.8M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Nador Al Aroui (NDR)",
+            city: "Nador",
+            icao: "GMMW",
+            iata: "NDR",
+            lat: 34.9888,
+            lng: -3.0282,
+            passengers: "0.7M",
+            runways: 1,
+            terminals: 1,
+            type: "International"
+        },
+        {
+            name: "Aéroport Ouarzazate (OZZ)",
+            city: "Ouarzazate",
+            icao: "GMMZ",
+            iata: "OZZ",
+            lat: 30.9391,
+            lng: -6.9094,
+            passengers: "0.5M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Al Hoceima (AHU)",
+            city: "Al Hoceima",
+            icao: "GMTA",
+            iata: "AHU",
+            lat: 35.1771,
+            lng: -3.8395,
+            passengers: "0.4M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Errachidia (ERH)",
+            city: "Errachidia",
+            icao: "GMFK",
+            iata: "ERH",
+            lat: 31.9475,
+            lng: -4.3983,
+            passengers: "0.3M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Dakhla (VIL)",
+            city: "Dakhla",
+            icao: "GMMH",
+            iata: "VIL",
+            lat: 23.7183,
+            lng: -15.9320,
+            passengers: "0.3M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Laâyoune Hassan I (EUN)",
+            city: "Laâyoune",
+            icao: "GMML",
+            iata: "EUN",
+            lat: 27.1517,
+            lng: -13.2192,
+            passengers: "0.3M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Moulay Ali Cherif (ERH)",
+            city: "Errachidia",
+            icao: "GMFK",
+            iata: "ERH",
+            lat: 31.9475,
+            lng: -4.3983,
+            passengers: "0.2M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        },
+        {
+            name: "Aéroport Charif Al Idrissi (AHU)",
+            city: "Al Hoceima",
+            icao: "GMTA",
+            iata: "AHU",
+            lat: 35.1771,
+            lng: -3.8395,
+            passengers: "0.2M",
+            runways: 1,
+            terminals: 1,
+            type: "National"
+        }
+    ];
+    
+    // Add markers with simplified popups
+    airports.forEach(function(airport) {
+        var popupContent = `
+            <div class="airport-popup">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-plane-departure me-2 text-primary"></i>
+                    <h6 class="mb-0 fw-bold">${airport.name}</h6>
+                </div>
+                <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>${airport.city}, Maroc</p>
+                <div class="d-flex flex-wrap gap-2 mb-1">
+                    <span class="badge bg-${airport.type === 'International' ? 'primary' : 'secondary'}">${airport.type}</span>
+                    <span class="badge bg-info text-dark">${airport.icao} / ${airport.iata}</span>
+                </div>
+                <div class="d-flex justify-content-between small mt-2">
+                    <div class="text-nowrap me-2"><i class="fas fa-users me-1"></i> ${airport.passengers}</div>
+                    <div class="text-nowrap me-2"><i class="fas fa-plane-departure me-1"></i> ${airport.runways} piste${airport.runways > 1 ? 's' : ''}</div>
+                    <div class="text-nowrap"><i class="fas fa-terminal me-1"></i> ${airport.terminals} terminal${airport.terminals > 1 ? 's' : ''}</div>
+                </div>
+            </div>
+        `;
+        
+        L.marker([airport.lat, airport.lng], {icon: airportIcon})
+            .addTo(map)
+            .bindPopup(popupContent);
+    });
+    
+    // Function to focus on a specific airport on the map
+    window.focusOnMap = function(lat, lng, title) {
+        map.flyTo([lat, lng], 12, {
+            duration: 1.5,
+            easeLinearity: 0.25
+        });
+        
+        // Open the popup of the selected airport
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker) {
+                var markerLatLng = layer.getLatLng();
+                if (markerLatLng.lat === lat && markerLatLng.lng === lng) {
+                    layer.openPopup();
+                }
+            }
+        });
+    };
+
+    // Counter animation
+    function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-count'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 16);
+    }
+
+    // Trigger counter animation when in view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.stat-number');
+                counters.forEach(counter => animateCounter(counter));
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+
+    observer.observe(document.querySelector('.stats-section'));
+</script>
+
+<style>
+/* Modern Design Styles */
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #ff6b35;
+    --accent-color: #00d4aa;
+    --dark-color: #1a1a1a;
+    --light-color: #f8f9fa;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --shadow-light: 0 5px 15px rgba(0,0,0,0.08);
+    --shadow-medium: 0 10px 30px rgba(0,0,0,0.12);
+    --shadow-heavy: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    z-index: -2;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: -1;
+}
+
+.hero-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 2px, transparent 2px);
+    background-size: 100px 100px;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-20px) translateX(10px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+
+.hero-content {
+    position: relative; /* Important pour les enfants en position absolue */
+    z-index: 1;
+    width: 100%;
+    padding: 40px 0 60px;
+    min-height: calc(100vh - 90px);
+    /* Supprimé display: flex pour permettre position absolue */
+    overflow: hidden; /* Évite le débordement */
+}
+
+.hero-text {
+    text-align: left;
+    padding-left: 2rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .fullscreen-hero {
+        height: 100vh;
+    }
+    
+    .welcome-card {
+        width: 92%;
+        max-width: 400px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .card-content {
+        padding: 2rem 1.5rem;
+    }
+    
+    .card-content h1 {
+        font-size: 2rem;
+    }
+    
+    .logo-section i {
+        font-size: 2.5rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1rem;
+    }
+    
+    .welcome-description {
+        font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .btn-modern {
+        width: 100%;
+        padding: 14px 20px;
+    }
+    
+    .fullscreen-hero .carousel-control-prev,
+    .fullscreen-hero .carousel-control-next {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .fullscreen-hero .carousel-control-prev {
+        left: 15px;
+    }
+    
+    .fullscreen-hero .carousel-control-next {
+        right: 15px;
+    }
+    
+    .fullscreen-hero .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        margin: 0 5px;
+    }
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-buttons .btn {
+    padding: 15px 30px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--gradient-secondary);
+    border: none;
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.btn-outline-light:hover {
+    background: white;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Hero Slider */
+.hero-slider {
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.slider-image {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+}
+
+.slider-image img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.slider-image:hover img {
+    transform: scale(1.05);
+}
+
+.slider-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.slider-image:hover .slider-overlay {
+    transform: translateY(0);
+}
+
+.slider-overlay h5 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #ffd700;
+}
+
+.slider-overlay p {
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Carousel Controls */
+.carousel-indicators {
+    bottom: 20px;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: transparent;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+    background: #ffd700;
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.hero-slider:hover .carousel-control-prev,
+.hero-slider:hover .carousel-control-next {
+    opacity: 1;
+}
+
+.carousel-control-prev {
+    left: 20px;
+}
+
+.carousel-control-next {
+    right: 20px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Fullscreen Hero Slider */
+.fullscreen-hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-slide {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+
+.slide-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 8s ease-in-out;
+}
+
+.carousel-item.active .slide-bg {
+    transform: scale(1.1);
+}
+
+.slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(102, 126, 234, 0.7) 0%,
+        rgba(118, 75, 162, 0.7) 50%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    z-index: 1;
+}
+
+/* Welcome Card Floating */
+.welcome-card {
+    position: absolute;
+    top: 23%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    max-width: 800px;
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 1rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    animation: cardFloat 6s ease-in-out infinite;
+    width: 100%;
+    position: relative;
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.card-header {
+    margin-bottom: 1.5rem;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.logo-section i {
+    font-size: 3rem;
+    color: #00d4aa;
+    animation: planeSpin 4s linear infinite;
+}
+
+@keyframes planeSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-content h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-description {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 1.8rem;
+    line-height: 1.6;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-modern {
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary.btn-modern {
+    background: linear-gradient(45deg, #00d4aa, #00b894);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+}
+
+.btn-primary.btn-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+    background: linear-gradient(45deg, #00b894, #00a085);
+    color: white;
+}
+
+.btn-outline-modern {
+    background: transparent;
+    color: #00d4aa;
+    border: 2px solid #00d4aa;
+}
+
+.btn-outline-modern:hover {
+    background: #00d4aa;
+    color: white;
+    transform: translateY(-3px);
+    text-decoration: none;
+}
+
+/* Carousel Controls Fullscreen */
+.fullscreen-hero .carousel-indicators {
+    bottom: 30px;
+    z-index: 15;
+}
+
+.fullscreen-hero .carousel-indicators button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background: transparent;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    margin: 0 8px;
+}
+
+.fullscreen-hero .carousel-indicators button.active {
+    background: #ffd700;
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.fullscreen-hero .carousel-control-prev,
+.fullscreen-hero .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+}
+
+.fullscreen-hero:hover .carousel-control-prev,
+.fullscreen-hero:hover .carousel-control-next {
+    opacity: 1;
+}
+
+.fullscreen-hero .carousel-control-prev {
+    left: 30px;
+}
+
+.fullscreen-hero .carousel-control-next {
+    right: 30px;
+}
+
+.fullscreen-hero .carousel-control-prev:hover,
+.fullscreen-hero .carousel-control-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23000" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.5;
+}
+
+.stat-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.stat-card:hover::before {
+    left: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border-color: var(--primary-color);
+}
+
+.stat-icon {
+    width: 90px;
+    height: 90px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.stat-icon::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    opacity: 0.3;
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.1; }
+}
+
+.stat-icon i {
+    font-size: 2.2rem;
+    color: white;
+    z-index: 1;
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    position: relative;
+}
+
+.stat-suffix {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.stat-label {
+    color: #666;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Services Section */
+.services-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.section-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-secondary);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.service-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #f0f0f0;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.service-icon {
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+}
+
+.service-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.service-content h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.service-content p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.service-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.service-link:hover {
+    color: var(--secondary-color);
+}
+
+.service-link i {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.service-link:hover i {
+    transform: translateX(5px);
+}
+
+/* Airports Section */
+.airports-section {
+    padding: 100px 0;
+    background: var(--light-color);
+}
+
+.map-container {
+    box-shadow: var(--shadow-medium);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.airports-list {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-light);
+    height: 500px;
+    overflow-y: auto;
+}
+
+.airports-list h4 {
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.airport-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.airport-item:last-child {
+    border-bottom: none;
+}
+
+.airport-item .airport-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.airport-item .airport-icon i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.airport-info h5 {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.airport-info p {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 0;
+    }
+    
+    .hero-content {
+        padding: 20px 0 40px;
+        min-height: calc(100vh - 90px);
+    }
+    
+    .hero-content .row {
+        flex-direction: column-reverse;
+    }
+    
+    .hero-content .col-lg-5,
+    .hero-content .col-lg-7 {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .floating-card {
+        margin-top: 2rem;
+        padding: 2rem 1.5rem;
+        max-width: 350px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    
+    .flight-route {
+        margin-bottom: 1.5rem;
+    }
+    
+    .airport .code {
+        font-size: 1.5rem;
+    }
+    
+    .flight-path i {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .floating-card {
+        padding: 1.5rem 1rem;
+        max-width: 300px;
+    }
+    
+    .flight-header h5 {
+        font-size: 1rem;
+    }
+    
+    .airport .code {
+        font-size: 1.3rem;
+    }
+    
+    .airport .city {
+        font-size: 0.8rem;
+    }
+    
+    .detail .value {
+        font-size: 0.9rem;
+    }
+    
+    .detail .label {
+        font-size: 0.7rem;
+    }
+}
+</style>
+{% endblock %}

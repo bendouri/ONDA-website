@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Services - ONDA{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="services-hero">
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="hero-title">Services Aéroportuaires</h1>
+                <p class="hero-subtitle">Découvrez tous nos services pour faciliter votre voyage</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Aéroports</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Sécurisé</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services Grid -->
+<div class="services-section">
+    <div class="container">
+        <div class="row">
+            <!-- Guide du voyageur -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Guide du Voyageur</h3>
+                        <p>Découvrez tous nos conseils pour bien préparer votre voyage au Maroc.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Conseils de voyage</li>
+                            <li><i class="fas fa-check"></i> Informations pratiques</li>
+                            <li><i class="fas fa-check"></i> Culture locale</li>
+                        </ul>
+                        <a href="{{ url_for('guide') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formalités -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card featured">
+                    <div class="service-badge">Populaire</div>
+                    <div class="service-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Formalités de Voyage</h3>
+                        <p>Informations sur les documents nécessaires et les formalités d'entrée.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Documents requis</li>
+                            <li><i class="fas fa-check"></i> Procédures visa</li>
+                            <li><i class="fas fa-check"></i> Contrôles douaniers</li>
+                        </ul>
+                        <a href="{{ url_for('documents') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagages -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-suitcase-rolling"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Bagages</h3>
+                        <p>Tout savoir sur les règles de bagages et les restrictions.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Poids autorisé</li>
+                            <li><i class="fas fa-check"></i> Objets interdits</li>
+                            <li><i class="fas fa-check"></i> Bagages spéciaux</li>
+                        </ul>
+                        <a href="{{ url_for('bagages') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sécurité -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Sécurité</h3>
+                        <p>Mesures de sécurité et consignes de sûreté dans nos aéroports.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Contrôles sécurisés</li>
+                            <li><i class="fas fa-check"></i> Protocoles sanitaires</li>
+                            <li><i class="fas fa-check"></i> Assistance 24/7</li>
+                        </ul>
+                        <a href="{{ url_for('surete') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transport -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Transport</h3>
+                        <p>Options de transport pour vous rendre à nos aéroports.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Navettes aéroport</li>
+                            <li><i class="fas fa-check"></i> Parking sécurisé</li>
+                            <li><i class="fas fa-check"></i> Transport public</li>
+                        </ul>
+                        <a href="{{ url_for('transport') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restauration -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Restauration</h3>
+                        <p>Découvrez les restaurants et options de restauration disponibles.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Cuisine locale</li>
+                            <li><i class="fas fa-check"></i> Fast-food</li>
+                            <li><i class="fas fa-check"></i> Cafés & bars</li>
+                        </ul>
+                        <a href="{{ url_for('food') }}" class="service-btn">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="services-cta">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h2>Besoin d'aide ?</h2>
+                <p>Notre équipe est là pour vous accompagner dans toutes vos démarches</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-phone"></i> Nous contacter
+                    </a>
+                    <a href="{{ url_for('guide') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-book"></i> Guide complet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

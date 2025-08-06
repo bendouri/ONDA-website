@@ -1,0 +1,526 @@
+/* Guide du Voyageur - Modern Styles */
+:root {
+    --guide-primary: #8e44ad;
+    --guide-secondary: #9b59b6;
+    --guide-accent: #e74c3c;
+    --guide-success: #27ae60;
+    --guide-warning: #f39c12;
+    --guide-info: #3498db;
+    --guide-light: #ecf0f1;
+    --guide-dark: #2c3e50;
+}
+
+/* Hero Section */
+.guide-hero {
+    background: linear-gradient(135deg, var(--guide-primary) 0%, var(--guide-secondary) 100%);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    padding: 2rem 0;
+}
+
+.guide-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="guide-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23guide-pattern)"/></svg>');
+    opacity: 0.3;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.2);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-badge {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.hero-buttons .btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--guide-accent);
+    border: none;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn-primary:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-outline-light:hover {
+    background: white;
+    color: var(--guide-primary);
+    transform: translateY(-2px);
+}
+
+/* Floating Guide Icons */
+.hero-visual {
+    position: relative;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guide-icons {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+}
+
+.guide-icon {
+    position: absolute;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    animation: float 6s ease-in-out infinite;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.guide-icon:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.05);
+}
+
+.guide-icon i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.guide-icon.passport {
+    top: 5%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.guide-icon.luggage {
+    top: 25%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.guide-icon.plane {
+    bottom: 25%;
+    left: 5%;
+    animation-delay: 2s;
+}
+
+.guide-icon.info {
+    bottom: 5%;
+    right: 10%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Utility Classes */
+.min-vh-60 {
+    min-height: 60vh;
+}
+
+/* Stats Section */
+.stats-section {
+    background: white;
+    padding: 3rem 0 4rem 0;
+    margin-top: -4rem;
+    position: relative;
+    z-index: 3;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-top: 4px solid var(--guide-primary);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--guide-primary), var(--guide-secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.stat-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--guide-primary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-content p {
+    color: #666;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Guide Sections */
+.guide-content {
+    padding: 4rem 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--guide-dark);
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.guide-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--guide-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.guide-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--guide-primary), var(--guide-secondary));
+}
+
+.guide-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+.guide-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.guide-card-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--guide-primary), var(--guide-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.guide-card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--guide-dark);
+    margin: 0;
+}
+
+.guide-card-content {
+    color: #666;
+    line-height: 1.6;
+}
+
+.guide-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.guide-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.guide-list li:last-child {
+    border-bottom: none;
+}
+
+.guide-list li i {
+    color: var(--guide-success);
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+}
+
+.guide-list li strong {
+    color: var(--guide-dark);
+    font-weight: 600;
+}
+
+/* Tips Section */
+.tips-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 4rem 0;
+    border-radius: 20px;
+    margin: 3rem 0;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.tip-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.tip-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--guide-warning), #e67e22);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.tip-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--guide-dark);
+    margin: 0;
+}
+
+.tip-content {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Emergency Section */
+.emergency-section {
+    background: var(--guide-accent);
+    color: white;
+    padding: 3rem 0;
+    border-radius: 15px;
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.emergency-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.emergency-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.emergency-contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.emergency-contact {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.emergency-contact:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.emergency-contact i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.emergency-contact h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.emergency-contact p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .guide-hero {
+        min-height: 60vh;
+        padding: 1rem 0;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .guide-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-visual {
+        height: 300px;
+        margin-top: 2rem;
+    }
+    
+    .guide-icon {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .guide-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .stats-section {
+        margin-top: -2rem;
+        padding: 2rem 0 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+    }
+    
+    .guide-card {
+        padding: 1.5rem;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .emergency-contacts {
+        grid-template-columns: 1fr;
+    }
+}

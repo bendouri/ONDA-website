@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Vols - ONDA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-plane"></i> Recherche de Vols
+            </h2>
+            
+            <!-- Search Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="GET" action="{{ url_for('flights') }}">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="airport_id" class="form-label">Aéroport</label>
+                                <select class="form-select" id="airport_id" name="airport_id">
+                                    <option value="">Tous les aéroports</option>
+                                    {% for airport in airports %}
+                                        <option value="{{ airport.id }}" 
+                                                {% if selected_airport == airport.id|string %}selected{% endif %}>
+                                            {{ airport.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="destination" class="form-label">Destination/Provenance</label>
+                                <select class="form-select" id="destination" name="destination">
+                                    <option value="">Toutes destinations</option>
+                                    {% for dest in destinations %}
+                                        <option value="{{ dest }}" 
+                                                {% if selected_destination == dest %}selected{% endif %}>
+                                            {{ dest }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" 
+                                       value="{{ selected_date }}">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <select class="form-select" id="type" name="type">
+                                    <option value="departure" {% if selected_type == 'departure' %}selected{% endif %}>
+                                        Départs
+                                    </option>
+                                    <option value="arrival" {% if selected_type == 'arrival' %}selected{% endif %}>
+                                        Arrivées
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Rechercher
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        {% if selected_type == 'departure' %}
+                            <i class="fas fa-plane-departure"></i> Vols au Départ
+                        {% else %}
+                            <i class="fas fa-plane-arrival"></i> Vols à l'Arrivée
+                        {% endif %}
+                        - {{ selected_date }}
+                        <span class="badge bg-primary ms-2">{{ flights|length }} vol(s)</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if flights %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vol</th>
+                                        <th>Compagnie</th>
+                                        <th>Aéroport</th>
+                                        <th>
+                                            {% if selected_type == 'departure' %}
+                                                Destination
+                                            {% else %}
+                                                Provenance
+                                            {% endif %}
+                                        </th>
+                                        <th>Heure Prévue</th>
+                                        <th>Statut</th>
+                                        <th>Porte</th>
+                                        <th>Terminal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for flight in flights %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ flight.flight_number }}</strong>
+                                        </td>
+                                        <td>{{ flight.airline }}</td>
+                                        <td>{{ flight.airport.name }}</td>
+                                        <td>
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ flight.destination }}
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-clock"></i>
+                                            {{ flight.scheduled_time.strftime('%H:%M') }}
+                                        </td>
+                                        <td>
+                                            {% if flight.status == 'Scheduled' %}
+                                                <span class="badge bg-primary">Programmé</span>
+                                            {% elif flight.status == 'Delayed' %}
+                                                <span class="badge bg-warning">Retardé</span>
+                                            {% elif flight.status == 'Cancelled' %}
+                                                <span class="badge bg-danger">Annulé</span>
+                                            {% elif flight.status == 'Boarding' %}
+                                                <span class="badge bg-info">Embarquement</span>
+                                            {% elif flight.status == 'Departed' %}
+                                                <span class="badge bg-success">Parti</span>
+                                            {% elif flight.status == 'Arrived' %}
+                                                <span class="badge bg-success">Arrivé</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ flight.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if flight.gate %}
+                                                <span class="badge bg-outline-primary">{{ flight.gate }}</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if flight.terminal %}
+                                                <span class="badge bg-outline-secondary">{{ flight.terminal }}</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-plane fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Aucun vol trouvé</h5>
+                            <p class="text-muted">
+                                Aucun vol ne correspond à vos critères de recherche pour cette date.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-refresh every 2 minutes for real-time updates
+setTimeout(function() {
+    location.reload();
+}, 120000);
+</script>
+{% endblock %}

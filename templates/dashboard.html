@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de Bord - ONDA{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">
+                    <i class="fas fa-tachometer-alt me-2"></i>
+                    Tableau de Bord
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <a href="{{ url_for('flights') }}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-plane me-1"></i>Rechercher un vol
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Welcome Message -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Bienvenue, {{ session.username }}!</strong> 
+                        Voici votre tableau de bord personnel ONDA.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-header">
+                            <i class="fas fa-plane me-2"></i>Vols
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ stats.flights_searched }}</h4>
+                            <p class="card-text">Recherches effectuées</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-header">
+                            <i class="fas fa-ticket-alt me-2"></i>Réservations
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ stats.bookings }}</h4>
+                            <p class="card-text">Réservations actives</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-white bg-info">
+                        <div class="card-header">
+                            <i class="fas fa-user me-2"></i>Profil
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                {% if stats.profile_complete %}
+                                    <i class="fas fa-check"></i>
+                                {% else %}
+                                    <i class="fas fa-times"></i>
+                                {% endif %}
+                            </h4>
+                            <p class="card-text">
+                                {% if stats.profile_complete %}
+                                    Profil complet
+                                {% else %}
+                                    Profil incomplet
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h3><i class="fas fa-bolt me-2"></i>Actions Rapides</h3>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-plane fa-2x text-primary mb-3"></i>
+                            <h5 class="card-title">Rechercher un Vol</h5>
+                            <p class="card-text">Trouvez et réservez votre prochain vol.</p>
+                            <a href="{{ url_for('flights') }}" class="btn btn-primary">
+                                <i class="fas fa-search me-1"></i>Rechercher
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-concierge-bell fa-2x text-success mb-3"></i>
+                            <h5 class="card-title">Services</h5>
+                            <p class="card-text">Découvrez tous nos services aéroportuaires.</p>
+                            <a href="{{ url_for('services') }}" class="btn btn-success">
+                                <i class="fas fa-list me-1"></i>Explorer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-utensils fa-2x text-warning mb-3"></i>
+                            <h5 class="card-title">Restaurants</h5>
+                            <p class="card-text">Trouvez les meilleurs restaurants.</p>
+                            <a href="{{ url_for('food') }}" class="btn btn-warning">
+                                <i class="fas fa-utensils me-1"></i>Découvrir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shopping-bag fa-2x text-info mb-3"></i>
+                            <h5 class="card-title">Shopping</h5>
+                            <p class="card-text">Explorez nos boutiques duty-free.</p>
+                            <a href="{{ url_for('shopping') }}" class="btn btn-info">
+                                <i class="fas fa-shopping-bag me-1"></i>Acheter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-clock me-2"></i>Activité Récente
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-light" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Aucune activité récente à afficher. Commencez par rechercher un vol ou explorer nos services !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+</style>
+{% endblock %}

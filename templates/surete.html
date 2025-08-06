@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block title %}Sécurité & Sûreté - ONDA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/security.css') }}">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="security-hero">
+    <div class="container">
+        <div class="row align-items-center min-vh-60">
+            <div class="col-lg-6">
+                <div class="hero-content" data-aos="fade-right">
+                    <span class="hero-badge">Sécurité Maximale</span>
+                    <h1 class="hero-title">Sécurité & Sûreté</h1>
+                    <p class="hero-subtitle">Votre sécurité est notre priorité absolue. Découvrez nos mesures de protection et consignes de sûreté pour un voyage serein.</p>
+                    <div class="hero-buttons">
+                        <a href="#security-content" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-shield-alt"></i> Consignes Sécurité
+                        </a>
+                        <a href="#emergency-contacts" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-phone"></i> Urgences
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="security-icons" data-aos="fade-left">
+                    <div class="floating-icon">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Protection 24/7</h4>
+                        <p>Surveillance continue</p>
+                    </div>
+                    <div class="floating-icon">
+                        <i class="fas fa-video"></i>
+                        <h4>Contrôle Avancé</h4>
+                        <p>Technologies modernes</p>
+                    </div>
+                    <div class="floating-icon">
+                        <i class="fas fa-user-shield"></i>
+                        <h4>Personnel Qualifié</h4>
+                        <p>Agents expérimentés</p>
+                    </div>
+                    <div class="floating-icon">
+                        <i class="fas fa-lock"></i>
+                        <h4>Zones Sécurisées</h4>
+                        <p>Accès contrôlé</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Security Stats -->
+<section class="security-stats">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Caméras HD</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Agents Sécurité</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Surveillance</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Fiabilité</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Security Content -->
+<section class="security-content" id="security-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Security Controls -->
+                <div class="security-card" data-aos="fade-up">
+                    <div class="security-header">
+                        <div class="security-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="security-title">
+                            <h3>Contrôles de Sécurité</h3>
+                            <span class="security-badge">Procédures Standard</span>
+                        </div>
+                    </div>
+                    <div class="security-body">
+                        <p>Nos contrôles de sécurité suivent les standards internationaux les plus stricts pour garantir votre protection.</p>
+                        <ul class="security-checklist">
+                            <li><i class="fas fa-id-card"></i> Contrôle des documents d'identité et billets</li>
+                            <li><i class="fas fa-walking"></i> Passage aux portiques de détection métallique</li>
+                            <li><i class="fas fa-x-ray"></i> Contrôle des bagages à main par rayons X</li>
+                            <li><i class="fas fa-search"></i> Fouille manuelle si détection d'anomalie</li>
+                            <li><i class="fas fa-shoe-prints"></i> Contrôle des chaussures et accessoires</li>
+                            <li><i class="fas fa-clock"></i> Temps moyen : 5-15 minutes selon affluence</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Prohibited Items -->
+                <div class="security-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="security-header">
+                        <div class="security-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="security-title">
+                            <h3>Objets Interdits</h3>
+                            <span class="security-badge">Liste Complète</span>
+                        </div>
+                    </div>
+                    <div class="security-body">
+                        <p>Pour votre sécurité et celle des autres passagers, certains objets sont strictement interdits.</p>
+                        <div class="prohibited-grid">
+                            <div class="prohibited-item">
+                                <i class="fas fa-knife"></i>
+                                <h5>Objets Tranchants</h5>
+                                <p>Couteaux, ciseaux, lames rasoir</p>
+                            </div>
+                            <div class="prohibited-item">
+                                <i class="fas fa-tint"></i>
+                                <h5>Liquides > 100ml</h5>
+                                <p>Bouteilles, cosmétiques, gels</p>
+                            </div>
+                            <div class="prohibited-item">
+                                <i class="fas fa-fire"></i>
+                                <h5>Produits Inflammables</h5>
+                                <p>Briquets, allumettes, aérosols</p>
+                            </div>
+                            <div class="prohibited-item">
+                                <i class="fas fa-tools"></i>
+                                <h5>Outils</h5>
+                                <p>Tournevis, marteaux, perceuses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Security -->
+                <div class="security-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="security-header">
+                        <div class="security-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="security-title">
+                            <h3>Sécurité Personnelle</h3>
+                            <span class="security-badge">Conseils Pratiques</span>
+                        </div>
+                    </div>
+                    <div class="security-body">
+                        <p>Adoptez les bons réflexes pour voyager en toute sécurité et contribuer à la sûreté collective.</p>
+                        <ul class="security-checklist">
+                            <li><i class="fas fa-eye"></i> Surveillez vos bagages en permanence</li>
+                            <li><i class="fas fa-exclamation-triangle"></i> Signalez tout objet ou comportement suspect</li>
+                            <li><i class="fas fa-passport"></i> Gardez vos documents sur vous</li>
+                            <li><i class="fas fa-user-times"></i> Ne transportez rien pour des inconnus</li>
+                            <li><i class="fas fa-handshake"></i> Coopérez avec le personnel de sécurité</li>
+                            <li><i class="fas fa-mobile-alt"></i> Gardez votre téléphone chargé</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Emergency Procedures -->
+                <div class="security-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="security-header">
+                        <div class="security-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="security-title">
+                            <h3>Procédures d'Urgence</h3>
+                            <span class="security-badge">Actions Prioritaires</span>
+                        </div>
+                    </div>
+                    <div class="security-body">
+                        <p>En cas d'urgence, suivez ces consignes pour votre sécurité et celle des autres.</p>
+                        <ul class="security-checklist">
+                            <li><i class="fas fa-volume-up"></i> Écoutez les annonces du personnel</li>
+                            <li><i class="fas fa-running"></i> Dirigez-vous calmement vers les sorties</li>
+                            <li><i class="fas fa-ban"></i> N'utilisez jamais les ascenseurs</li>
+                            <li><i class="fas fa-heart"></i> Restez calme et aidez les autres</li>
+                            <li><i class="fas fa-phone"></i> Contactez les secours si nécessaire</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Rejoignez les points de rassemblement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="security-sidebar">
+                    <!-- Emergency Contacts -->
+                    <div class="sidebar-card" id="emergency-contacts" data-aos="fade-left">
+                        <div class="card-header">
+                            <i class="fas fa-phone-alt"></i>
+                            <h4>Contacts d'Urgence</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="emergency-contact">
+                                <i class="fas fa-ambulance"></i>
+                                <div>
+                                    <strong>SAMU</strong>
+                                    <p>15</p>
+                                </div>
+                            </div>
+                            <div class="emergency-contact">
+                                <i class="fas fa-fire-extinguisher"></i>
+                                <div>
+                                    <strong>Pompiers</strong>
+                                    <p>19</p>
+                                </div>
+                            </div>
+                            <div class="emergency-contact">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>Police</strong>
+                                    <p>177</p>
+                                </div>
+                            </div>
+                            <div class="emergency-contact">
+                                <i class="fas fa-plane"></i>
+                                <div>
+                                    <strong>Centre ONDA</strong>
+                                    <p>+212 522 539 040</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alert Levels -->
+                    <div class="sidebar-card" data-aos="fade-left" data-aos-delay="100">
+                        <div class="card-header">
+                            <i class="fas fa-traffic-light"></i>
+                            <h4>Niveaux d'Alerte</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert-system">
+                                <div class="alert-level green">
+                                    <span class="level-indicator"></span>
+                                    <div>
+                                        <strong>Vert : Normal</strong>
+                                        <p>Procédures standard</p>
+                                    </div>
+                                </div>
+                                <div class="alert-level yellow">
+                                    <span class="level-indicator"></span>
+                                    <div>
+                                        <strong>Jaune : Vigilance</strong>
+                                        <p>Contrôles renforcés</p>
+                                    </div>
+                                </div>
+                                <div class="alert-level orange">
+                                    <span class="level-indicator"></span>
+                                    <div>
+                                        <strong>Orange : Sécurité+</strong>
+                                        <p>Mesures supplémentaires</p>
+                                    </div>
+                                </div>
+                                <div class="alert-level red">
+                                    <span class="level-indicator"></span>
+                                    <div>
+                                        <strong>Rouge : Maximum</strong>
+                                        <p>Sécurité maximale</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="sidebar-card" data-aos="fade-left" data-aos-delay="200">
+                        <div class="card-header">
+                            <i class="fas fa-external-link-alt"></i>
+                            <h4>Actions Rapides</h4>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{ url_for('guide') }}" class="quick-action">
+                                <i class="fas fa-book-open"></i>
+                                <span>Guide du Voyageur</span>
+                            </a>
+                            <a href="{{ url_for('bagages') }}" class="quick-action">
+                                <i class="fas fa-suitcase"></i>
+                                <span>Règles Bagages</span>
+                            </a>
+                            <a href="{{ url_for('documents') }}" class="quick-action">
+                                <i class="fas fa-passport"></i>
+                                <span>Formalités</span>
+                            </a>
+                            <a href="{{ url_for('contact') }}" class="quick-action">
+                                <i class="fas fa-envelope"></i>
+                                <span>Nous Contacter</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AOS Animation Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+</script>
+{% endblock %}

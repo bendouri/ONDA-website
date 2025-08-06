@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurants au Maroc</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      background-color: #f9f9f9;
+    }
+
+    h1, h2 {
+      color: #003366;
+    }
+
+    .ville-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .ville-btn {
+      padding: 12px 20px;
+      background-color: #007B8A;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .ville-btn:hover {
+      background-color: #ca6f1e;
+    }
+    
+    .restaurant-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .restaurant-card {
+      width: calc(50% - 10px);
+      perspective: 1000px;
+      min-width: 300px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+
+    .restaurant-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      backface-visibility: hidden;
+    }
+
+    .card-front img {
+      width: 200px;
+      object-fit: cover;
+    }
+
+    .restaurant-info {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .restaurant-info h3 {
+      margin-top: 0;
+      color: #c0392b;
+    }
+
+    .note {
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    .type {
+      font-style: italic;
+      color: #555;
+    }
+
+    .card-back ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .restaurant-card {
+        width: 100%;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+  </div>
+  <h1>Choisissez une ville pour découvrir ses meilleurs restaurants</h1>
+  <div class="ville-container">
+    <button class="ville-btn" onclick="afficherRestaurants('Casablanca')">Casablanca</button>
+    <button class="ville-btn" onclick="afficherRestaurants('Marrakech')">Marrakech</button>
+    <button class="ville-btn" onclick="afficherRestaurants('Fès')">Fès</button>
+    <button class="ville-btn" onclick="afficherRestaurants('Tanger')">Tanger</button>
+    <button class="ville-btn" onclick="afficherRestaurants('Rabat')">Rabat</button>
+  </div>
+
+  <div class="restaurant-list" id="restaurant-list"></div>
+
+  <script>
+    const restaurantsData = {
+      Casablanca: [
+        {
+          nom: "Rick's Café",
+          type: "Cuisine internationale",
+          note: "4.7/5",
+          description: "Ambiance inspirée du film Casablanca, cuisine raffinée et cadre romantique.",
+          image: "rick.jpg",
+          menu: [
+            "Entrée : Salade César",
+            "Plat principal : Filet de bœuf au poivre",
+            "Dessert : Fondant au chocolat",
+            "Boisson : Vin rouge marocain"
+          ]
+        },
+        {
+          nom: "La Sqala",
+          type: "Cuisine marocaine",
+          note: "4.5/5",
+          description: "Restaurant traditionnel dans une ancienne forteresse, plats marocains savoureux.",
+          image: "sqala.jpg",
+          menu: [
+            "Entrée : Briouates variées",
+            "Plat principal : Couscous royal",
+            "Dessert : Cornes de gazelle",
+            "Boisson : Thé à la menthe"
+          ]
+        }
+      ],
+      Marrakech: [
+        {
+          nom: "Nomad",
+          type: "Cuisine moderne marocaine",
+          note: "4.6/5",
+          description: "Vue imprenable sur la médina, plats marocains revisités et ambiance chic.",
+          image: "nomad.jpg",
+          menu: [
+            "Entrée : Soupe de carottes à l’orange",
+            "Plat principal : Tajine d’agneau aux pruneaux",
+            "Dessert : Glace safran-pistache",
+            "Boisson : Limonade maison"
+          ]
+        },
+        {
+          nom: "Al Fassia",
+          type: "Cuisine marocaine",
+          note: "4.8/5",
+          description: "Tenue uniquement par des femmes, réputée pour ses tajines et pastillas.",
+          image: "alfassia.jpg",
+          menu: [
+            "Entrée : Zaalouk d’aubergines",
+            "Plat principal : Pastilla au poulet",
+            "Dessert : Fruits frais de saison",
+            "Boisson : Eau minérale"
+          ]
+        }
+      ],
+      Fès: [
+        {
+          nom: "Dar Roumana",
+          type: "Cuisine fusion franco-marocaine",
+          note: "4.7/5",
+          description: "Cuisine inventive dans un riad restauré avec une belle vue sur la médina.",
+          image: "darroumana.jpg",
+          menu: [
+            "Entrée : Velouté de potiron à la cannelle",
+            "Plat principal : Magret de canard aux figues",
+            "Dessert : Mille-feuilles au miel",
+            "Boisson : Jus de grenade"
+          ]
+        },
+        {
+          nom: "The Ruined Garden",
+          type: "Cuisine marocaine",
+          note: "4.6/5",
+          description: "Jardin caché dans la médina, plats traditionnels et ambiance paisible.",
+          image: "theruinedgarden.jpg",
+          menu: [
+            "Entrée : Salade méchouia",
+            "Plat principal : Tajine kefta aux œufs",
+            "Dessert : Crêpes marocaines au miel",
+            "Boisson : Thé à la menthe"
+          ]
+        }
+      ],
+      Tanger: [
+        {
+          nom: "Saveur de Poisson",
+          type: "Spécialités de poissons",
+          note: "4.9/5",
+          description: "Incontournable à Tanger, menu fixe de poissons frais, service chaleureux.",
+          image: "poisson.jpg",
+          menu: [
+            "Entrée : Salade de poulpe",
+            "Plat principal : Poisson grillé",
+            "Dessert : Fruits secs au miel",
+            "Boisson : Jus de citron frais"
+          ]
+        },
+        {
+          nom: "Le Mirage",
+          type: "Cuisine méditerranéenne",
+          note: "4.6/5",
+          description: "Cadre luxueux avec vue sur mer, cuisine raffinée et carte variée.",
+          image: "mirage.jpg",
+          menu: [
+            "Entrée : Tapas de la mer",
+            "Plat principal : Paella aux fruits de mer",
+            "Dessert : Tiramisu oriental",
+            "Boisson : Eau gazeuse"
+          ]
+        }
+      ],
+      Rabat: [
+        {
+          nom: "Dinarjat",
+          type: "Cuisine marocaine haut de gamme",
+          note: "4.8/5",
+          description: "Ambiance traditionnelle dans un riad élégant, service raffiné.",
+          image: "dinar.jpg",
+          menu: [
+            "Entrée : Salade marocaine assortie",
+            "Plat principal : Tajine de veau aux olives",
+            "Dessert : Pastilla au lait",
+            "Boisson : Jus de carotte"
+          ]
+        },
+        {
+          nom: "Le Dhow",
+          type: "Cuisine internationale",
+          note: "4.6/5",
+          description: "Restaurant-bar sur un bateau, cuisine fusion et vue sur le Bouregreg.",
+          image: "dhow.jpg",
+          menu: [
+            "Entrée : Rillettes de saumon",
+            "Plat principal : Burger gourmet au foie gras",
+            "Dessert : Cheesecake aux fruits rouges",
+            "Boisson : Cocktail maison"
+          ]
+        }
+      ]
+    };
+
+    function afficherRestaurants(ville) {
+      const restaurants = restaurantsData[ville];
+      const container = document.getElementById("restaurant-list");
+      container.innerHTML = `<h2>Restaurants bien notés à ${ville}</h2>`;
+
+      restaurants.forEach(resto => {
+        const card = document.createElement("div");
+        card.className = "restaurant-card";
+        card.onclick = () => {
+          card.classList.toggle("flipped");
+        };
+
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front">
+              <img src="${resto.image}" alt="Image de ${resto.nom}">
+              <div class="restaurant-info">
+                <h3>${resto.nom}</h3>
+                <p class="type">${resto.type}</p>
+                <p class="note">Note : ${resto.note}</p>
+                <p>${resto.description}</p>
+              </div>
+            </div>
+            <div class="card-back">
+              <ul>
+                ${resto.menu.map(item => `<li>${item}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

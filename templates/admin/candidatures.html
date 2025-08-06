@@ -1,0 +1,270 @@
+{% extends 'admin/dashboard.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Gestion des candidatures</h2>
+    
+    <!-- Statistiques -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ stats.total }}</h5>
+                    <p class="card-text">Total</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">{{ stats.pending }}</h5>
+                    <p class="card-text">En attente</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-info">{{ stats.reviewed }}</h5>
+                    <p class="card-text">Examinées</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-success">{{ stats.accepted }}</h5>
+                    <p class="card-text">Acceptées</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">{{ stats.rejected }}</h5>
+                    <p class="card-text">Rejetées</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tableau des candidatures -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Liste des candidatures</h5>
+        </div>
+        <div class="card-body">
+            {% if candidatures %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Candidat</th>
+                            <th>Offre d'emploi</th>
+                            <th>Expérience</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidature in candidatures %}
+                        <tr>
+                            <td>{{ candidature.applied_at.strftime('%d/%m/%Y') }}</td>
+                            <td>
+                                <strong>{{ candidature.first_name }} {{ candidature.last_name }}</strong><br>
+                                <small class="text-muted">{{ candidature.email }}</small><br>
+                                <small class="text-muted">{{ candidature.phone }}</small>
+                            </td>
+                            <td>
+                                <strong>{{ candidature.job_offer.title }}</strong><br>
+                                <small class="text-muted">Réf: {{ candidature.job_offer.reference }}</small>
+                            </td>
+                            <td>
+                                {{ candidature.experience_years }} ans<br>
+                                <small class="text-muted">{{ candidature.education_level }}</small>
+                            </td>
+                            <td>
+                                {% if candidature.status == 'pending' %}
+                                    <span class="badge bg-warning">En attente</span>
+                                {% elif candidature.status == 'reviewed' %}
+                                    <span class="badge bg-info">Examinée</span>
+                                {% elif candidature.status == 'accepted' %}
+                                    <span class="badge bg-success">Acceptée</span>
+                                {% elif candidature.status == 'rejected' %}
+                                    <span class="badge bg-danger">Rejetée</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#viewModal{{ candidature.id }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#statusModal{{ candidature.id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Aucune candidature reçue pour le moment.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modals pour voir les détails et changer le statut -->
+{% for candidature in candidatures %}
+<!-- Modal Voir Détails -->
+<div class="modal fade" id="viewModal{{ candidature.id }}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Candidature de {{ candidature.first_name }} {{ candidature.last_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Informations personnelles</h6>
+                        <p><strong>Nom complet:</strong> {{ candidature.first_name }} {{ candidature.last_name }}</p>
+                        <p><strong>Email:</strong> {{ candidature.email }}</p>
+                        <p><strong>Téléphone:</strong> {{ candidature.phone }}</p>
+                        <p><strong>Adresse:</strong> {{ candidature.address }}</p>
+                        <p><strong>Date de naissance:</strong> {{ candidature.birth_date.strftime('%d/%m/%Y') }}</p>
+                        <p><strong>Nationalité:</strong> {{ candidature.nationality }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Informations professionnelles</h6>
+                        <p><strong>Niveau d'études:</strong> {{ candidature.education_level }}</p>
+                        <p><strong>Expérience:</strong> {{ candidature.experience_years }} ans</p>
+                        <p><strong>Poste actuel:</strong> {{ candidature.current_position or 'Non spécifié' }}</p>
+                        <p><strong>Compétences:</strong> {{ candidature.skills or 'Non spécifiées' }}</p>
+                        <p><strong>Langues:</strong> {{ candidature.languages or 'Non spécifiées' }}</p>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Offre d'emploi</h6>
+                        <p><strong>{{ candidature.job_offer.title }}</strong> (Réf: {{ candidature.job_offer.reference }})</p>
+                        <p>{{ candidature.job_offer.department }} - {{ candidature.job_offer.location }}</p>
+                    </div>
+                </div>
+                
+                {% if candidature.motivation_letter %}
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Lettre de motivation</h6>
+                        <p>{{ candidature.motivation_letter }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <hr>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Documents</h6>
+                        <div id="modalDocuments">
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <strong>CV:</strong><br>
+                                    {% if candidature.cv_url %}
+                                        <a href="{{ url_for('uploaded_file', filename=candidature.cv_url.split('/')[-1]) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-download"></i> Télécharger CV
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Non fourni</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <strong>Lettre de motivation:</strong><br>
+                                    {% if candidature.cover_letter_url %}
+                                        <a href="{{ url_for('uploaded_file', filename=candidature.cover_letter_url.split('/')[-1]) }}" target="_blank" class="btn btn-sm btn-outline-success">
+                                            <i class="fas fa-download"></i> Télécharger lettre
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Non fourni</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <strong>Diplôme:</strong><br>
+                                    {% if candidature.diploma_url %}
+                                        <a href="{{ url_for('uploaded_file', filename=candidature.diploma_url.split('/')[-1]) }}" target="_blank" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-download"></i> Télécharger diplôme
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Non fourni</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if candidature.notes %}
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Notes internes</h6>
+                        <p>{{ candidature.notes }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Changer Statut -->
+<div class="modal fade" id="statusModal{{ candidature.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('admin_update_candidature_status', candidature_id=candidature.id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modifier le statut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="status{{ candidature.id }}" class="form-label">Nouveau statut</label>
+                        <select class="form-select" id="status{{ candidature.id }}" name="status" required>
+                            <option value="pending" {{ 'selected' if candidature.status == 'pending' else '' }}>En attente</option>
+                            <option value="reviewed" {{ 'selected' if candidature.status == 'reviewed' else '' }}>Examinée</option>
+                            <option value="accepted" {{ 'selected' if candidature.status == 'accepted' else '' }}>Acceptée</option>
+                            <option value="rejected" {{ 'selected' if candidature.status == 'rejected' else '' }}>Rejetée</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes{{ candidature.id }}" class="form-label">Notes internes</label>
+                        <textarea class="form-control" id="notes{{ candidature.id }}" name="notes" rows="3">{{ candidature.notes or '' }}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

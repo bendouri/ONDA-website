@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion Internet au Maroc</title>
+   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      background-color: #f7f7f7;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .connexion-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .connexion-card {
+      width: calc(50% - 10px);
+      min-width: 300px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+    }
+
+    .connexion-card img {
+      width: 180px;
+      object-fit: cover;
+    }
+
+    .connexion-info {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .connexion-info h3 {
+      margin-top: 0;
+      color: #2980b9;
+    }
+
+    .type {
+      font-style: italic;
+      color: #555;
+    }
+
+    .note {
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    @media (max-width: 768px) {
+      .connexion-card {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .connexion-card img {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Retour aux services</a>
+  </div>
+  <h1>Opérateurs Internet au Maroc</h1>
+
+  <div class="connexion-list" id="connexion-list"></div>
+
+  <script>
+    const connexions = [
+      {
+        operateur: "Maroc Telecom",
+        type: "Fibre / ADSL / 4G",
+        note: "4.1/5",
+        description: "Leader historique avec large couverture et offres fibre.",
+        image: "maroc.png"
+      },
+      {
+        operateur: "Inwi",
+        type: "Fibre / 4G Box",
+        note: "4.0/5",
+        description: "Offres illimitées avec installation rapide et service client réactif.",
+        image: "inwi.jpg"
+      },
+      {
+        operateur: "Orange",
+        type: "Fibre / Flybox 4G",
+        note: "3.9/5",
+        description: "Bonne alternative avec promos fréquentes et recharge en ligne.",
+        image: "orange.png"
+      }
+    ];
+
+    const container = document.getElementById("connexion-list");
+
+    connexions.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "connexion-card";
+
+      card.innerHTML = `
+        <img src="${c.image}" alt="Logo ${c.operateur}">
+        <div class="connexion-info">
+          <h3>${c.operateur}</h3>
+          <p class="type">${c.type}</p>
+          <p class="note">Note : ${c.note}</p>
+          <p>${c.description}</p>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>

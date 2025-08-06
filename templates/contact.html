@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - ONDA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Contactez-nous</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Nom complet</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Sujet</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Envoyer le message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Informations de contact</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5><i class="fas fa-map-marker-alt"></i> Adresse</h5>
+                        <p>Aéroport Mohammed V<br>Casablanca, Maroc</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5><i class="fas fa-phone"></i> Téléphone</h5>
+                        <p>+212 5 XX XX XX XX</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5><i class="fas fa-envelope"></i> Email</h5>
+                        <p>contact@onda.ma</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5><i class="fas fa-clock"></i> Horaires</h5>
+                        <p>Lundi - Vendredi: 8h00 - 18h00<br>
+                        Samedi: 9h00 - 13h00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4>Suivez-nous</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-around">
+                        <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-info"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-danger"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-primary"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

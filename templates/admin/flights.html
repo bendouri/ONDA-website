@@ -1,0 +1,840 @@
+{% extends "base.html" %}
+
+{% block title %}Gestion des Vols - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_users') }}">
+                            <i class="fas fa-users"></i> Utilisateurs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_transport') }}">
+                            <i class="fas fa-bus"></i> Transport
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_restaurants') }}">
+                            <i class="fas fa-utensils"></i> Restaurants
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_shopping') }}">
+                            <i class="fas fa-shopping-cart"></i> Shopping
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_flights') }}">
+                            <i class="fas fa-plane"></i> Vols
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_contacts') }}">
+                            <i class="fas fa-envelope"></i> Messages de Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Gestion des Vols</h1>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFlightModal">
+                    <i class="fas fa-plus"></i> Ajouter un Vol
+                </button>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card">
+                <div class="card-body">
+                    {% if flights %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vol</th>
+                                        <th>Compagnie</th>
+                                        <th>Aéroport</th>
+                                        <th>Destination</th>
+                                        <th>Type</th>
+                                        <th>Date/Heure</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for flight in flights %}
+                                    <tr>
+                                        <td><strong>{{ flight.flight_number }}</strong></td>
+                                        <td>{{ flight.airline }}</td>
+                                        <td>{{ flight.airport.name }}</td>
+                                        <td>{{ flight.destination }}</td>
+                                        <td>
+                                            {% if flight.flight_type == 'departure' %}
+                                                <span class="badge bg-info">Départ</span>
+                                            {% else %}
+                                                <span class="badge bg-success">Arrivée</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ flight.scheduled_time.strftime('%d/%m/%Y %H:%M') }}
+                                        </td>
+                                        <td>
+                                            {% if flight.status == 'Scheduled' %}
+                                                <span class="badge bg-primary">Programmé</span>
+                                            {% elif flight.status == 'Delayed' %}
+                                                <span class="badge bg-warning">Retardé</span>
+                                            {% elif flight.status == 'Cancelled' %}
+                                                <span class="badge bg-danger">Annulé</span>
+                                            {% elif flight.status == 'Boarding' %}
+                                                <span class="badge bg-info">Embarquement</span>
+                                            {% elif flight.status == 'Departed' %}
+                                                <span class="badge bg-success">Parti</span>
+                                            {% elif flight.status == 'Arrived' %}
+                                                <span class="badge bg-success">Arrivé</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-outline-primary edit-flight-btn" 
+                                                        data-flight-id="{{ flight.id }}">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger delete-flight-btn" 
+                                                        data-flight-id="{{ flight.id }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-plane fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Aucun vol</h5>
+                            <p class="text-muted">Commencez par ajouter votre premier vol.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add Flight Modal -->
+<div class="modal fade" id="addFlightModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un Vol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="flight_number" class="form-label">Numéro de Vol</label>
+                            <input type="text" class="form-control" id="flight_number" name="flight_number" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="airline" class="form-label">Compagnie Aérienne</label>
+                            <input type="text" class="form-control" id="airline" name="airline" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="airport_id" class="form-label">Aéroport</label>
+                            <select class="form-select" id="airport_id" name="airport_id" required>
+                                <option value="">Sélectionner un aéroport</option>
+                                {% for airport in airports %}
+                                    <option value="{{ airport.id }}">{{ airport.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="destination" class="form-label">Destination</label>
+                            <select class="form-select" id="destination" name="destination" required>
+                                <option value="">Sélectionner une destination</option>
+                                <!-- Europe -->
+                                <optgroup label="Europe">
+                                    <option value="Amsterdam">Amsterdam</option>
+                                    <option value="Athens">Athens</option>
+                                    <option value="Barcelona">Barcelona</option>
+                                    <option value="Berlin">Berlin</option>
+                                    <option value="Brussels">Brussels</option>
+                                    <option value="Budapest">Budapest</option>
+                                    <option value="Copenhagen">Copenhagen</option>
+                                    <option value="Dublin">Dublin</option>
+                                    <option value="Florence">Florence</option>
+                                    <option value="Frankfurt">Frankfurt</option>
+                                    <option value="Geneva">Geneva</option>
+                                    <option value="Hamburg">Hamburg</option>
+                                    <option value="Helsinki">Helsinki</option>
+                                    <option value="Istanbul">Istanbul</option>
+                                    <option value="Lisbon">Lisbon</option>
+                                    <option value="London">London</option>
+                                    <option value="Lyon">Lyon</option>
+                                    <option value="Madrid">Madrid</option>
+                                    <option value="Marseille">Marseille</option>
+                                    <option value="Milan">Milan</option>
+                                    <option value="Munich">Munich</option>
+                                    <option value="Nice">Nice</option>
+                                    <option value="Oslo">Oslo</option>
+                                    <option value="Paris">Paris</option>
+                                    <option value="Prague">Prague</option>
+                                    <option value="Rome">Rome</option>
+                                    <option value="Stockholm">Stockholm</option>
+                                    <option value="Venice">Venice</option>
+                                    <option value="Vienna">Vienna</option>
+                                    <option value="Warsaw">Warsaw</option>
+                                    <option value="Zurich">Zurich</option>
+                                </optgroup>
+                                <!-- Middle East & Asia -->
+                                <optgroup label="Moyen-Orient & Asie">
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Amman">Amman</option>
+                                    <option value="Ankara">Ankara</option>
+                                    <option value="Baghdad">Baghdad</option>
+                                    <option value="Baku">Baku</option>
+                                    <option value="Bangkok">Bangkok</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Beijing">Beijing</option>
+                                    <option value="Beirut">Beirut</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Damascus">Damascus</option>
+                                    <option value="Dhaka">Dhaka</option>
+                                    <option value="Doha">Doha</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Hong Kong">Hong Kong</option>
+                                    <option value="Islamabad">Islamabad</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Jeddah">Jeddah</option>
+                                    <option value="Jerusalem">Jerusalem</option>
+                                    <option value="Karachi">Karachi</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                    <option value="Kuwait City">Kuwait City</option>
+                                    <option value="Lahore">Lahore</option>
+                                    <option value="Manama">Manama</option>
+                                    <option value="Manila">Manila</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Muscat">Muscat</option>
+                                    <option value="New Delhi">New Delhi</option>
+                                    <option value="Riyadh">Riyadh</option>
+                                    <option value="Seoul">Seoul</option>
+                                    <option value="Shanghai">Shanghai</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Tbilisi">Tbilisi</option>
+                                    <option value="Tehran">Tehran</option>
+                                    <option value="Tel Aviv">Tel Aviv</option>
+                                    <option value="Tokyo">Tokyo</option>
+                                    <option value="Yerevan">Yerevan</option>
+                                </optgroup>
+                                <!-- Africa -->
+                                <optgroup label="Afrique">
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="Abuja">Abuja</option>
+                                    <option value="Accra">Accra</option>
+                                    <option value="Addis Ababa">Addis Ababa</option>
+                                    <option value="Alexandria">Alexandria</option>
+                                    <option value="Algiers">Algiers</option>
+                                    <option value="Antananarivo">Antananarivo</option>
+                                    <option value="Bamako">Bamako</option>
+                                    <option value="Brazzaville">Brazzaville</option>
+                                    <option value="Cairo">Cairo</option>
+                                    <option value="Cape Town">Cape Town</option>
+                                    <option value="Conakry">Conakry</option>
+                                    <option value="Dakar">Dakar</option>
+                                    <option value="Dar es Salaam">Dar es Salaam</option>
+                                    <option value="Douala">Douala</option>
+                                    <option value="Durban">Durban</option>
+                                    <option value="Freetown">Freetown</option>
+                                    <option value="Gaborone">Gaborone</option>
+                                    <option value="Harare">Harare</option>
+                                    <option value="Johannesburg">Johannesburg</option>
+                                    <option value="Kampala">Kampala</option>
+                                    <option value="Khartoum">Khartoum</option>
+                                    <option value="Kinshasa">Kinshasa</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Libreville">Libreville</option>
+                                    <option value="Lilongwe">Lilongwe</option>
+                                    <option value="Luanda">Luanda</option>
+                                    <option value="Lusaka">Lusaka</option>
+                                    <option value="Maputo">Maputo</option>
+                                    <option value="Monrovia">Monrovia</option>
+                                    <option value="Nairobi">Nairobi</option>
+                                    <option value="Niamey">Niamey</option>
+                                    <option value="Ouagadougou">Ouagadougou</option>
+                                    <option value="Port Louis">Port Louis</option>
+                                    <option value="Pretoria">Pretoria</option>
+                                    <option value="Tripoli">Tripoli</option>
+                                    <option value="Tunis">Tunis</option>
+                                    <option value="Windhoek">Windhoek</option>
+                                    <option value="Yaoundé">Yaoundé</option>
+                                </optgroup>
+                                <!-- Americas -->
+                                <optgroup label="Amériques">
+                                    <option value="Asunción">Asunción</option>
+                                    <option value="Atlanta">Atlanta</option>
+                                    <option value="Belo Horizonte">Belo Horizonte</option>
+                                    <option value="Bogotá">Bogotá</option>
+                                    <option value="Boston">Boston</option>
+                                    <option value="Brasília">Brasília</option>
+                                    <option value="Bridgetown">Bridgetown</option>
+                                    <option value="Buenos Aires">Buenos Aires</option>
+                                    <option value="Calgary">Calgary</option>
+                                    <option value="Cali">Cali</option>
+                                    <option value="Cancun">Cancun</option>
+                                    <option value="Caracas">Caracas</option>
+                                    <option value="Chicago">Chicago</option>
+                                    <option value="Córdoba">Córdoba</option>
+                                    <option value="Curitiba">Curitiba</option>
+                                    <option value="Cusco">Cusco</option>
+                                    <option value="Dallas">Dallas</option>
+                                    <option value="Denver">Denver</option>
+                                    <option value="Detroit">Detroit</option>
+                                    <option value="Edmonton">Edmonton</option>
+                                    <option value="Fortaleza">Fortaleza</option>
+                                    <option value="Guadalajara">Guadalajara</option>
+                                    <option value="Guayaquil">Guayaquil</option>
+                                    <option value="Halifax">Halifax</option>
+                                    <option value="Havana">Havana</option>
+                                    <option value="Houston">Houston</option>
+                                    <option value="Kingston">Kingston</option>
+                                    <option value="La Paz">La Paz</option>
+                                    <option value="Las Vegas">Las Vegas</option>
+                                    <option value="Lima">Lima</option>
+                                    <option value="Los Angeles">Los Angeles</option>
+                                    <option value="Manaus">Manaus</option>
+                                    <option value="Medellín">Medellín</option>
+                                    <option value="Mendoza">Mendoza</option>
+                                    <option value="Mérida">Mérida</option>
+                                    <option value="Mexico City">Mexico City</option>
+                                    <option value="Miami">Miami</option>
+                                    <option value="Minneapolis">Minneapolis</option>
+                                    <option value="Monterrey">Monterrey</option>
+                                    <option value="Montreal">Montreal</option>
+                                    <option value="Montevideo">Montevideo</option>
+                                    <option value="Nassau">Nassau</option>
+                                    <option value="New York">New York</option>
+                                    <option value="Orlando">Orlando</option>
+                                    <option value="Ottawa">Ottawa</option>
+                                    <option value="Philadelphia">Philadelphia</option>
+                                    <option value="Phoenix">Phoenix</option>
+                                    <option value="Port of Spain">Port of Spain</option>
+                                    <option value="Port-au-Prince">Port-au-Prince</option>
+                                    <option value="Porto Alegre">Porto Alegre</option>
+                                    <option value="Puebla">Puebla</option>
+                                    <option value="Quebec City">Quebec City</option>
+                                    <option value="Quito">Quito</option>
+                                    <option value="Recife">Recife</option>
+                                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                    <option value="Rosario">Rosario</option>
+                                    <option value="Salvador">Salvador</option>
+                                    <option value="San Diego">San Diego</option>
+                                    <option value="San Francisco">San Francisco</option>
+                                    <option value="San Juan">San Juan</option>
+                                    <option value="Santa Cruz">Santa Cruz</option>
+                                    <option value="Santiago">Santiago</option>
+                                    <option value="Santo Domingo">Santo Domingo</option>
+                                    <option value="São Paulo">São Paulo</option>
+                                    <option value="Seattle">Seattle</option>
+                                    <option value="Tampa">Tampa</option>
+                                    <option value="Tijuana">Tijuana</option>
+                                    <option value="Toronto">Toronto</option>
+                                    <option value="Valparaíso">Valparaíso</option>
+                                    <option value="Vancouver">Vancouver</option>
+                                    <option value="Washington DC">Washington DC</option>
+                                    <option value="Winnipeg">Winnipeg</option>
+                                </optgroup>
+                                <!-- Oceania -->
+                                <optgroup label="Océanie">
+                                    <option value="Adelaide">Adelaide</option>
+                                    <option value="Apia">Apia</option>
+                                    <option value="Auckland">Auckland</option>
+                                    <option value="Brisbane">Brisbane</option>
+                                    <option value="Canberra">Canberra</option>
+                                    <option value="Christchurch">Christchurch</option>
+                                    <option value="Dunedin">Dunedin</option>
+                                    <option value="Gold Coast">Gold Coast</option>
+                                    <option value="Hamilton">Hamilton</option>
+                                    <option value="Honiara">Honiara</option>
+                                    <option value="Melbourne">Melbourne</option>
+                                    <option value="Nadi">Nadi</option>
+                                    <option value="Newcastle">Newcastle</option>
+                                    <option value="Nuku'alofa">Nuku'alofa</option>
+                                    <option value="Palmerston North">Palmerston North</option>
+                                    <option value="Papeete">Papeete</option>
+                                    <option value="Perth">Perth</option>
+                                    <option value="Port Moresby">Port Moresby</option>
+                                    <option value="Port Vila">Port Vila</option>
+                                    <option value="Suva">Suva</option>
+                                    <option value="Sydney">Sydney</option>
+                                    <option value="Tauranga">Tauranga</option>
+                                    <option value="Wellington">Wellington</option>
+                                    <option value="Wollongong">Wollongong</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="flight_type" class="form-label">Type de Vol</label>
+                            <select class="form-select" id="flight_type" name="flight_type" required>
+                                <option value="departure">Départ</option>
+                                <option value="arrival">Arrivée</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="scheduled_date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="scheduled_date" name="scheduled_date" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="scheduled_time" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="scheduled_time" name="scheduled_time" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="status" class="form-label">Statut</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="Scheduled">Programmé</option>
+                                <option value="Delayed">Retardé</option>
+                                <option value="Cancelled">Annulé</option>
+                                <option value="Boarding">Embarquement</option>
+                                <option value="Departed">Parti</option>
+                                <option value="Arrived">Arrivé</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="gate" class="form-label">Porte</label>
+                            <input type="text" class="form-control" id="gate" name="gate">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="terminal" class="form-label">Terminal</label>
+                            <input type="text" class="form-control" id="terminal" name="terminal">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aircraft_type" class="form-label">Type d'Avion</label>
+                        <input type="text" class="form-control" id="aircraft_type" name="aircraft_type" placeholder="Ex: Boeing 737, Airbus A320">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Flight Modal -->
+<div class="modal fade" id="editFlightModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier le Vol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" id="editFlightForm">
+                <div class="modal-body">
+                    <input type="hidden" id="edit_flight_id" name="flight_id">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_flight_number" class="form-label">Numéro de Vol</label>
+                            <input type="text" class="form-control" id="edit_flight_number" name="flight_number" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_airline" class="form-label">Compagnie Aérienne</label>
+                            <input type="text" class="form-control" id="edit_airline" name="airline" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_airport_id" class="form-label">Aéroport</label>
+                            <select class="form-select" id="edit_airport_id" name="airport_id" required>
+                                <option value="">Sélectionner un aéroport</option>
+                                {% for airport in airports %}
+                                    <option value="{{ airport.id }}">{{ airport.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_destination" class="form-label">Destination</label>
+                            <select class="form-select" id="edit_destination" name="destination" required>
+                                <option value="">Sélectionner une destination</option>
+                                <!-- Europe -->
+                                <optgroup label="Europe">
+                                    <option value="Amsterdam">Amsterdam</option>
+                                    <option value="Athens">Athens</option>
+                                    <option value="Barcelona">Barcelona</option>
+                                    <option value="Berlin">Berlin</option>
+                                    <option value="Brussels">Brussels</option>
+                                    <option value="Budapest">Budapest</option>
+                                    <option value="Copenhagen">Copenhagen</option>
+                                    <option value="Dublin">Dublin</option>
+                                    <option value="Florence">Florence</option>
+                                    <option value="Frankfurt">Frankfurt</option>
+                                    <option value="Geneva">Geneva</option>
+                                    <option value="Hamburg">Hamburg</option>
+                                    <option value="Helsinki">Helsinki</option>
+                                    <option value="Istanbul">Istanbul</option>
+                                    <option value="Lisbon">Lisbon</option>
+                                    <option value="London">London</option>
+                                    <option value="Lyon">Lyon</option>
+                                    <option value="Madrid">Madrid</option>
+                                    <option value="Marseille">Marseille</option>
+                                    <option value="Milan">Milan</option>
+                                    <option value="Munich">Munich</option>
+                                    <option value="Nice">Nice</option>
+                                    <option value="Oslo">Oslo</option>
+                                    <option value="Paris">Paris</option>
+                                    <option value="Prague">Prague</option>
+                                    <option value="Rome">Rome</option>
+                                    <option value="Stockholm">Stockholm</option>
+                                    <option value="Venice">Venice</option>
+                                    <option value="Vienna">Vienna</option>
+                                    <option value="Warsaw">Warsaw</option>
+                                    <option value="Zurich">Zurich</option>
+                                </optgroup>
+                                <!-- Middle East & Asia -->
+                                <optgroup label="Moyen-Orient & Asie">
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Amman">Amman</option>
+                                    <option value="Ankara">Ankara</option>
+                                    <option value="Baghdad">Baghdad</option>
+                                    <option value="Baku">Baku</option>
+                                    <option value="Bangkok">Bangkok</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Beijing">Beijing</option>
+                                    <option value="Beirut">Beirut</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Damascus">Damascus</option>
+                                    <option value="Dhaka">Dhaka</option>
+                                    <option value="Doha">Doha</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Hong Kong">Hong Kong</option>
+                                    <option value="Islamabad">Islamabad</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Jeddah">Jeddah</option>
+                                    <option value="Jerusalem">Jerusalem</option>
+                                    <option value="Karachi">Karachi</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                    <option value="Kuwait City">Kuwait City</option>
+                                    <option value="Lahore">Lahore</option>
+                                    <option value="Manama">Manama</option>
+                                    <option value="Manila">Manila</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Muscat">Muscat</option>
+                                    <option value="New Delhi">New Delhi</option>
+                                    <option value="Riyadh">Riyadh</option>
+                                    <option value="Seoul">Seoul</option>
+                                    <option value="Shanghai">Shanghai</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Tbilisi">Tbilisi</option>
+                                    <option value="Tehran">Tehran</option>
+                                    <option value="Tel Aviv">Tel Aviv</option>
+                                    <option value="Tokyo">Tokyo</option>
+                                    <option value="Yerevan">Yerevan</option>
+                                </optgroup>
+                                <!-- Africa -->
+                                <optgroup label="Afrique">
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="Abuja">Abuja</option>
+                                    <option value="Accra">Accra</option>
+                                    <option value="Addis Ababa">Addis Ababa</option>
+                                    <option value="Alexandria">Alexandria</option>
+                                    <option value="Algiers">Algiers</option>
+                                    <option value="Antananarivo">Antananarivo</option>
+                                    <option value="Bamako">Bamako</option>
+                                    <option value="Brazzaville">Brazzaville</option>
+                                    <option value="Cairo">Cairo</option>
+                                    <option value="Cape Town">Cape Town</option>
+                                    <option value="Conakry">Conakry</option>
+                                    <option value="Dakar">Dakar</option>
+                                    <option value="Dar es Salaam">Dar es Salaam</option>
+                                    <option value="Douala">Douala</option>
+                                    <option value="Durban">Durban</option>
+                                    <option value="Freetown">Freetown</option>
+                                    <option value="Gaborone">Gaborone</option>
+                                    <option value="Harare">Harare</option>
+                                    <option value="Johannesburg">Johannesburg</option>
+                                    <option value="Kampala">Kampala</option>
+                                    <option value="Khartoum">Khartoum</option>
+                                    <option value="Kinshasa">Kinshasa</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Libreville">Libreville</option>
+                                    <option value="Lilongwe">Lilongwe</option>
+                                    <option value="Luanda">Luanda</option>
+                                    <option value="Lusaka">Lusaka</option>
+                                    <option value="Maputo">Maputo</option>
+                                    <option value="Monrovia">Monrovia</option>
+                                    <option value="Nairobi">Nairobi</option>
+                                    <option value="Niamey">Niamey</option>
+                                    <option value="Ouagadougou">Ouagadougou</option>
+                                    <option value="Port Louis">Port Louis</option>
+                                    <option value="Pretoria">Pretoria</option>
+                                    <option value="Tripoli">Tripoli</option>
+                                    <option value="Tunis">Tunis</option>
+                                    <option value="Windhoek">Windhoek</option>
+                                    <option value="Yaoundé">Yaoundé</option>
+                                </optgroup>
+                                <!-- Americas -->
+                                <optgroup label="Amériques">
+                                    <option value="Asunción">Asunción</option>
+                                    <option value="Atlanta">Atlanta</option>
+                                    <option value="Belo Horizonte">Belo Horizonte</option>
+                                    <option value="Bogotá">Bogotá</option>
+                                    <option value="Boston">Boston</option>
+                                    <option value="Brasília">Brasília</option>
+                                    <option value="Bridgetown">Bridgetown</option>
+                                    <option value="Buenos Aires">Buenos Aires</option>
+                                    <option value="Calgary">Calgary</option>
+                                    <option value="Cali">Cali</option>
+                                    <option value="Cancun">Cancun</option>
+                                    <option value="Caracas">Caracas</option>
+                                    <option value="Chicago">Chicago</option>
+                                    <option value="Córdoba">Córdoba</option>
+                                    <option value="Curitiba">Curitiba</option>
+                                    <option value="Cusco">Cusco</option>
+                                    <option value="Dallas">Dallas</option>
+                                    <option value="Denver">Denver</option>
+                                    <option value="Detroit">Detroit</option>
+                                    <option value="Edmonton">Edmonton</option>
+                                    <option value="Fortaleza">Fortaleza</option>
+                                    <option value="Guadalajara">Guadalajara</option>
+                                    <option value="Guayaquil">Guayaquil</option>
+                                    <option value="Halifax">Halifax</option>
+                                    <option value="Havana">Havana</option>
+                                    <option value="Houston">Houston</option>
+                                    <option value="Kingston">Kingston</option>
+                                    <option value="La Paz">La Paz</option>
+                                    <option value="Las Vegas">Las Vegas</option>
+                                    <option value="Lima">Lima</option>
+                                    <option value="Los Angeles">Los Angeles</option>
+                                    <option value="Manaus">Manaus</option>
+                                    <option value="Medellín">Medellín</option>
+                                    <option value="Mendoza">Mendoza</option>
+                                    <option value="Mérida">Mérida</option>
+                                    <option value="Mexico City">Mexico City</option>
+                                    <option value="Miami">Miami</option>
+                                    <option value="Minneapolis">Minneapolis</option>
+                                    <option value="Monterrey">Monterrey</option>
+                                    <option value="Montreal">Montreal</option>
+                                    <option value="Montevideo">Montevideo</option>
+                                    <option value="Nassau">Nassau</option>
+                                    <option value="New York">New York</option>
+                                    <option value="Orlando">Orlando</option>
+                                    <option value="Ottawa">Ottawa</option>
+                                    <option value="Philadelphia">Philadelphia</option>
+                                    <option value="Phoenix">Phoenix</option>
+                                    <option value="Port of Spain">Port of Spain</option>
+                                    <option value="Port-au-Prince">Port-au-Prince</option>
+                                    <option value="Porto Alegre">Porto Alegre</option>
+                                    <option value="Puebla">Puebla</option>
+                                    <option value="Quebec City">Quebec City</option>
+                                    <option value="Quito">Quito</option>
+                                    <option value="Recife">Recife</option>
+                                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                    <option value="Rosario">Rosario</option>
+                                    <option value="Salvador">Salvador</option>
+                                    <option value="San Diego">San Diego</option>
+                                    <option value="San Francisco">San Francisco</option>
+                                    <option value="San Juan">San Juan</option>
+                                    <option value="Santa Cruz">Santa Cruz</option>
+                                    <option value="Santiago">Santiago</option>
+                                    <option value="Santo Domingo">Santo Domingo</option>
+                                    <option value="São Paulo">São Paulo</option>
+                                    <option value="Seattle">Seattle</option>
+                                    <option value="Tampa">Tampa</option>
+                                    <option value="Tijuana">Tijuana</option>
+                                    <option value="Toronto">Toronto</option>
+                                    <option value="Valparaíso">Valparaíso</option>
+                                    <option value="Vancouver">Vancouver</option>
+                                    <option value="Washington DC">Washington DC</option>
+                                    <option value="Winnipeg">Winnipeg</option>
+                                </optgroup>
+                                <!-- Oceania -->
+                                <optgroup label="Océanie">
+                                    <option value="Adelaide">Adelaide</option>
+                                    <option value="Apia">Apia</option>
+                                    <option value="Auckland">Auckland</option>
+                                    <option value="Brisbane">Brisbane</option>
+                                    <option value="Canberra">Canberra</option>
+                                    <option value="Christchurch">Christchurch</option>
+                                    <option value="Dunedin">Dunedin</option>
+                                    <option value="Gold Coast">Gold Coast</option>
+                                    <option value="Hamilton">Hamilton</option>
+                                    <option value="Honiara">Honiara</option>
+                                    <option value="Melbourne">Melbourne</option>
+                                    <option value="Nadi">Nadi</option>
+                                    <option value="Newcastle">Newcastle</option>
+                                    <option value="Nuku'alofa">Nuku'alofa</option>
+                                    <option value="Palmerston North">Palmerston North</option>
+                                    <option value="Papeete">Papeete</option>
+                                    <option value="Perth">Perth</option>
+                                    <option value="Port Moresby">Port Moresby</option>
+                                    <option value="Port Vila">Port Vila</option>
+                                    <option value="Suva">Suva</option>
+                                    <option value="Sydney">Sydney</option>
+                                    <option value="Tauranga">Tauranga</option>
+                                    <option value="Wellington">Wellington</option>
+                                    <option value="Wollongong">Wollongong</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_flight_type" class="form-label">Type de Vol</label>
+                            <select class="form-select" id="edit_flight_type" name="flight_type" required>
+                                <option value="departure">Départ</option>
+                                <option value="arrival">Arrivée</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_scheduled_date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="edit_scheduled_date" name="scheduled_date" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_scheduled_time" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="edit_scheduled_time" name="scheduled_time" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_status" class="form-label">Statut</label>
+                            <select class="form-select" id="edit_status" name="status" required>
+                                <option value="Scheduled">Programmé</option>
+                                <option value="Delayed">Retardé</option>
+                                <option value="Cancelled">Annulé</option>
+                                <option value="Boarding">Embarquement</option>
+                                <option value="Departed">Parti</option>
+                                <option value="Arrived">Arrivé</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_gate" class="form-label">Porte</label>
+                            <input type="text" class="form-control" id="edit_gate" name="gate">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="edit_terminal" class="form-label">Terminal</label>
+                            <input type="text" class="form-control" id="edit_terminal" name="terminal">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_aircraft_type" class="form-label">Type d'Avion</label>
+                        <input type="text" class="form-control" id="edit_aircraft_type" name="aircraft_type" placeholder="Ex: Boeing 737, Airbus A320">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Edit flight buttons
+    document.querySelectorAll('.edit-flight-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const flightId = this.getAttribute('data-flight-id');
+            
+            // Fetch flight data
+            fetch(`/admin/flights/${flightId}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the edit form
+                        document.getElementById('edit_flight_id').value = data.flight.id;
+                        document.getElementById('edit_flight_number').value = data.flight.flight_number;
+                        document.getElementById('edit_airline').value = data.flight.airline;
+                        document.getElementById('edit_airport_id').value = data.flight.airport_id;
+                        document.getElementById('edit_destination').value = data.flight.destination;
+                        document.getElementById('edit_flight_type').value = data.flight.flight_type;
+                        document.getElementById('edit_scheduled_date').value = data.flight.scheduled_date;
+                        document.getElementById('edit_scheduled_time').value = data.flight.scheduled_time;
+                        document.getElementById('edit_status').value = data.flight.status;
+                        document.getElementById('edit_gate').value = data.flight.gate;
+                        document.getElementById('edit_terminal').value = data.flight.terminal;
+                        document.getElementById('edit_aircraft_type').value = data.flight.aircraft_type;
+                        
+                        // Set form action
+                        document.getElementById('editFlightForm').action = `/admin/flights/${flightId}/update`;
+                        
+                        // Show modal
+                        new bootstrap.Modal(document.getElementById('editFlightModal')).show();
+                    } else {
+                        alert('Erreur lors du chargement des données');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors du chargement des données');
+                });
+        });
+    });
+    
+    // Delete flight buttons
+    document.querySelectorAll('.delete-flight-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const flightId = this.getAttribute('data-flight-id');
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce vol ?')) {
+                fetch(`/admin/flights/${flightId}/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erreur lors de la suppression');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erreur lors de la suppression');
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

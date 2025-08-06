@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord - ONDA{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="fas fa-user me-2"></i> Bienvenue, {{ current_user.username }}!</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Votre espace personnel</h5>
+                            <p>Bienvenue dans votre espace personnel ONDA. Ici vous pouvez gérer vos informations et accéder aux services personnalisés.</p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-primary">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-plane fa-2x text-primary mb-2"></i>
+                                            <h6>Mes Voyages</h6>
+                                            <p class="small text-muted">Historique et réservations</p>
+                                            <button class="btn btn-sm btn-primary" disabled>Bientôt disponible</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-star fa-2x text-success mb-2"></i>
+                                            <h6>Mes Avis</h6>
+                                            <p class="small text-muted">Évaluations et commentaires</p>
+                                            <button class="btn btn-sm btn-success" disabled>Bientôt disponible</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-info">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-bookmark fa-2x text-info mb-2"></i>
+                                            <h6>Favoris</h6>
+                                            <p class="small text-muted">Restaurants et services sauvegardés</p>
+                                            <button class="btn btn-sm btn-info" disabled>Bientôt disponible</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-warning">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-bell fa-2x text-warning mb-2"></i>
+                                            <h6>Notifications</h6>
+                                            <p class="small text-muted">Alertes et informations</p>
+                                            <button class="btn btn-sm btn-warning" disabled>Bientôt disponible</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card border-secondary">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-user-cog me-2"></i> Informations du compte</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Nom d'utilisateur:</strong> {{ current_user.username }}</p>
+                                    <p><strong>Email:</strong> {{ current_user.email }}</p>
+                                    <p><strong>Membre depuis:</strong> {{ current_user.created_at.strftime('%d/%m/%Y') }}</p>
+                                    <p><strong>Statut:</strong> 
+                                        {% if current_user.is_admin %}
+                                            <span class="badge bg-danger">Administrateur</span>
+                                        {% else %}
+                                            <span class="badge bg-primary">Utilisateur</span>
+                                        {% endif %}
+                                    </p>
+                                    <hr>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-primary btn-sm" disabled>
+                                            <i class="fas fa-edit me-1"></i> Modifier le profil
+                                        </button>
+                                        <button class="btn btn-outline-secondary btn-sm" disabled>
+                                            <i class="fas fa-key me-1"></i> Changer mot de passe
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card border-info mt-3">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-info-circle me-2"></i> Liens utiles</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <a href="{{ url_for('services') }}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-concierge-bell me-1"></i> Nos services
+                                        </a>
+                                        <a href="{{ url_for('transport') }}" class="btn btn-outline-success btn-sm">
+                                            <i class="fas fa-bus me-1"></i> Transport
+                                        </a>
+                                        <a href="{{ url_for('food') }}" class="btn btn-outline-warning btn-sm">
+                                            <i class="fas fa-utensils me-1"></i> Restaurants
+                                        </a>
+                                        <a href="{{ url_for('contact') }}" class="btn btn-outline-info btn-sm">
+                                            <i class="fas fa-envelope me-1"></i> Contact
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

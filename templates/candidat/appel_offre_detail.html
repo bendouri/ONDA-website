@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Détail Appel d'Offre{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <h2>{{ tender.title }}</h2>
+    <p><strong>Référence :</strong> {{ tender.reference }}</p>
+    <p><strong>Catégorie :</strong> {{ tender.category }}</p>
+    <p><strong>Description :</strong> {{ tender.description }}</p>
+    <p><strong>Date limite :</strong> {{ tender.deadline.strftime('%d/%m/%Y %H:%M') }}</p>
+    <p><strong>Contact :</strong> {{ tender.contact_person }} ({{ tender.contact_email }})</p>
+    {% if tender.document_url %}
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-file-pdf"></i> Document de l'appel d'offre</h5>
+        </div>
+        <div class="card-body text-center">
+            <p class="mb-3">Téléchargez le dossier complet de cet appel d'offre</p>
+            <a href="{{ url_for('download_tender_document', tender_id=tender.id) }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-download"></i> Télécharger le dossier (PDF)
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning mt-3">
+        <i class="fas fa-exclamation-triangle"></i> Aucun document disponible pour cet appel d'offre.
+    </div>
+    {% endif %}
+    <a href="{{ url_for('appels_offres') }}" class="btn btn-link mt-3">&larr; Retour</a>
+</div>
+{% endblock %}

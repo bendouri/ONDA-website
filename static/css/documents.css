@@ -1,0 +1,729 @@
+/* ===== DOCUMENTS PAGE STYLES ===== */
+
+/* Hero Section */
+.documents-hero {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
+    min-height: 60vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.documents-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    color: white;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-buttons .btn {
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.hero-buttons .btn-primary {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.hero-buttons .btn-primary:hover {
+    background: white;
+    color: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hero-buttons .btn-outline-light {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    background: transparent;
+}
+
+.hero-buttons .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+/* Hero Visual */
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.document-stack {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.document-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    transition: all 0.3s ease;
+    width: 150px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: float 6s ease-in-out infinite;
+}
+
+.document-card.passport {
+    top: 0;
+    left: 0;
+    animation-delay: 0s;
+}
+
+.document-card.visa {
+    top: 50px;
+    right: 0;
+    animation-delay: 2s;
+}
+
+.document-card.health {
+    bottom: 0;
+    left: 75px;
+    animation-delay: 4s;
+}
+
+.document-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.document-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #ffd700;
+}
+
+.document-card span {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(52, 152, 219, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(52, 152, 219, 0.15);
+}
+
+.stat-icon {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+}
+
+.stat-content h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.stat-content p {
+    color: #666;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Documents Content */
+.documents-content {
+    padding: 4rem 0;
+    background: white;
+}
+
+.documents-content .container {
+    max-width: 1200px;
+}
+
+/* Document Sections */
+.document-section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(52, 152, 219, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.document-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(52, 152, 219, 0.15);
+}
+
+.section-header {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section-icon {
+    background: rgba(255, 255, 255, 0.2);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.section-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.section-header p {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.section-content {
+    padding: 2rem;
+}
+
+/* Document Cards */
+.document-cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 1.5rem;
+margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+.document-cards {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+.document-card-item {
+background: white;
+border-radius: 12px;
+padding: 1.5rem;
+box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+transition: all 0.3s ease;
+border-left: 4px solid var(--primary-color);
+height: fit-content;
+overflow: hidden;
+}
+
+.document-card-item::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 4px;
+background: linear-gradient(135deg, #3498db, #2c3e50);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+}
+
+.document-card-item:hover {
+    border-color: #3498db;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.15);
+    background: white;
+}
+
+.card-icon {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.card-requirements {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    border-left: 4px solid #3498db;
+}
+
+.card-requirements h5 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.card-requirements ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.card-requirements li {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+/* List Groups */
+.list-group-item {
+    border: none;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background: #f8f9fa;
+    padding-left: 1.5rem;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.list-group-item i {
+    color: #3498db;
+    margin-right: 0.5rem;
+    width: 16px;
+}
+
+/* Visa Categories */
+.visa-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.visa-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--primary-color);
+}
+
+.visa-card.no-visa {
+    border-left-color: #27ae60;
+}
+
+.visa-card.visa-required {
+    border-left-color: #f39c12;
+}
+
+.visa-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.visa-header i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.visa-card.no-visa .visa-header i {
+    color: #27ae60;
+}
+
+.visa-card.visa-required .visa-header i {
+    color: #f39c12;
+}
+
+.visa-header h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.visa-duration {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.country-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.country-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.requirements {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.req-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.req-item i {
+    color: #f39c12;
+    width: 16px;
+}
+
+/* Sidebar Cards Horizontal */
+.sidebar-cards-horizontal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .sidebar-cards-horizontal {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Sidebar Styles */
+.documents-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(52, 152, 219, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.sidebar-card .card-header {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-card .card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.sidebar-card .card-header i {
+    font-size: 1.2rem;
+}
+
+.sidebar-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Quick Actions */
+.quick-action {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    border: 2px solid transparent;
+}
+
+.quick-action:hover {
+    background: #f8f9fa;
+    border-color: #3498db;
+    color: #2c3e50;
+    text-decoration: none;
+    transform: translateX(5px);
+}
+
+.quick-action i {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1rem;
+}
+
+.quick-action .action-content h5 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.quick-action .action-content p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Visa Checker */
+.visa-checker {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.visa-checker select {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.visa-checker select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+.visa-result {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.visa-result.visa-required {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.visa-result.visa-not-required {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Tips */
+.tip-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+}
+
+.tip-item i {
+    color: #3498db;
+    margin-right: 1rem;
+    margin-top: 0.2rem;
+    font-size: 1.1rem;
+}
+
+.tip-item .tip-content h6 {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.tip-item .tip-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .document-stack {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .document-card {
+        width: 120px;
+        height: 100px;
+        padding: 1rem;
+    }
+    
+    .documents-sidebar {
+        position: static;
+        margin-top: 2rem;
+    }
+    
+    .document-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+        padding: 1.5rem;
+    }
+    
+    .section-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+    }
+    
+    .document-card {
+        width: 100px;
+        height: 80px;
+        padding: 0.75rem;
+    }
+    
+    .document-card i {
+        font-size: 1.5rem;
+    }
+    
+    .document-card span {
+        font-size: 0.8rem;
+    }
+}

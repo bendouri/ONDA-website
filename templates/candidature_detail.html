@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de votre candidature - ONDA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .candidature-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .candidature-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 15px 0;
+        }
+        
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status-reviewed {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .status-accepted {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status-rejected {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .candidature-body {
+            padding: 30px;
+        }
+        
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4facfe;
+        }
+        
+        .info-section h5 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .info-value {
+            color: #333;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #4facfe;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4facfe;
+        }
+        
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .timeline-content {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .btn-back {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+            color: white;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: #4facfe !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-plane me-2"></i>ONDA
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('index') }}">Accueil</a>
+                <a class="nav-link" href="{{ url_for('offres_emploi') }}">Offres d'emploi</a>
+                <a class="nav-link" href="{{ url_for('appels_offres') }}">Appels d'offres</a>
+                <a class="nav-link" href="{{ url_for('suivi_candidature_form') }}">Suivi candidature</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="candidature-container">
+            <div class="candidature-header">
+                <h2><i class="fas fa-file-alt me-2"></i>Votre Candidature</h2>
+                <p class="mb-2">Code de suivi: <strong>{{ candidature.tracking_code }}</strong></p>
+                
+                {% if candidature.status == 'pending' %}
+                    <div class="status-badge status-pending">
+                        <i class="fas fa-clock me-2"></i>En attente
+                    </div>
+                {% elif candidature.status == 'reviewed' %}
+                    <div class="status-badge status-reviewed">
+                        <i class="fas fa-eye me-2"></i>Examinée
+                    </div>
+                {% elif candidature.status == 'accepted' %}
+                    <div class="status-badge status-accepted">
+                        <i class="fas fa-check-circle me-2"></i>Acceptée
+                    </div>
+                {% elif candidature.status == 'rejected' %}
+                    <div class="status-badge status-rejected">
+                        <i class="fas fa-times-circle me-2"></i>Rejetée
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="candidature-body">
+                <!-- Informations sur l'offre -->
+                <div class="info-section">
+                    <h5><i class="fas fa-briefcase me-2"></i>Offre d'emploi</h5>
+                    <div class="info-row">
+                        <span class="info-label">Poste:</span>
+                        <span class="info-value">{{ candidature.job_offer.title }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Référence:</span>
+                        <span class="info-value">{{ candidature.job_offer.reference }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Département:</span>
+                        <span class="info-value">{{ candidature.job_offer.department }}</span>
+                    </div>
+                </div>
+                
+                <!-- Informations personnelles -->
+                <div class="info-section">
+                    <h5><i class="fas fa-user me-2"></i>Vos informations</h5>
+                    <div class="info-row">
+                        <span class="info-label">Nom complet:</span>
+                        <span class="info-value">{{ candidature.first_name }} {{ candidature.last_name }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">{{ candidature.email }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Téléphone:</span>
+                        <span class="info-value">{{ candidature.phone }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Expérience:</span>
+                        <span class="info-value">{{ candidature.experience_years }} ans</span>
+                    </div>
+                </div>
+                
+                <!-- Chronologie -->
+                <div class="info-section">
+                    <h5><i class="fas fa-history me-2"></i>Chronologie</h5>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">{{ candidature.applied_at.strftime('%d/%m/%Y à %H:%M') }}</div>
+                            <div class="timeline-content">Candidature soumise</div>
+                        </div>
+                        
+                        {% if candidature.reviewed_at %}
+                        <div class="timeline-item">
+                            <div class="timeline-date">{{ candidature.reviewed_at.strftime('%d/%m/%Y à %H:%M') }}</div>
+                            <div class="timeline-content">Candidature examinée</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if candidature.status == 'accepted' %}
+                        <div class="timeline-item">
+                            <div class="timeline-date">-</div>
+                            <div class="timeline-content text-success">
+                                <i class="fas fa-check-circle me-2"></i>Candidature acceptée ! 
+                                Vous serez contacté(e) prochainement.
+                            </div>
+                        </div>
+                        {% elif candidature.status == 'rejected' %}
+                        <div class="timeline-item">
+                            <div class="timeline-date">-</div>
+                            <div class="timeline-content text-danger">
+                                <i class="fas fa-times-circle me-2"></i>Candidature non retenue. 
+                                Merci pour votre intérêt.
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if candidature.notes and candidature.status in ['accepted', 'rejected'] %}
+                <!-- Notes RH (si disponibles) -->
+                <div class="info-section">
+                    <h5><i class="fas fa-comment me-2"></i>Message</h5>
+                    <p class="mb-0">{{ candidature.notes }}</p>
+                </div>
+                {% endif %}
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('suivi_candidature_form') }}" class="btn-back">
+                        <i class="fas fa-arrow-left me-2"></i>Nouvelle recherche
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

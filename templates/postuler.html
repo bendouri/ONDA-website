@@ -1,0 +1,555 @@
+{% extends "base.html" %}
+
+{% block title %}Postuler - {{ job.title }} - ONDA{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+        color: white;
+        padding: 3rem 0 2rem;
+        margin-top: 76px;
+    }
+
+    .application-form {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        margin-top: -1rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+
+    .step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
+
+    .step::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e9ecef;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
+    .step.active::before {
+        background: var(--primary-color);
+    }
+
+    .step.completed::before {
+        background: var(--accent-color);
+    }
+
+    .step::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 100%;
+        height: 2px;
+        background: #e9ecef;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .step:last-child::after {
+        display: none;
+    }
+
+    .step.completed::after {
+        background: var(--accent-color);
+    }
+
+    .step-content {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .step.active .step-content {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .form-section {
+        display: none;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .form-section.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-floating {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+    }
+
+    .btn-next, .btn-prev, .btn-submit {
+        padding: 0.75rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-next, .btn-submit {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #004499 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-next:hover, .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+        color: white;
+    }
+
+    .btn-prev {
+        background: #6c757d;
+        border: none;
+        color: white;
+    }
+
+    .btn-prev:hover {
+        background: #5a6268;
+        color: white;
+    }
+
+    .file-upload {
+        border: 2px dashed #e9ecef;
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .file-upload:hover {
+        border-color: var(--primary-color);
+        background: rgba(0, 102, 204, 0.05);
+    }
+
+    .file-upload.dragover {
+        border-color: var(--accent-color);
+        background: rgba(0, 212, 170, 0.1);
+    }
+
+    .job-info {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .job-info h4 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .job-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .job-detail {
+        background: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .progress-bar-custom {
+        height: 4px;
+        background: #e9ecef;
+        border-radius: 2px;
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        transition: width 0.5s ease;
+        border-radius: 2px;
+    }
+
+    :root {
+        --primary-color: #0066cc;
+        --secondary-color: #ff6b35;
+        --accent-color: #00d4aa;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold mb-3">Postuler à une offre</h1>
+                <p class="lead">Rejoignez l'équipe ONDA et contribuez au développement de l'aviation civile au Maroc</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="application-form">
+                <!-- Informations sur l'offre -->
+                <div class="job-info">
+                    <h4>{{ job.title }}</h4>
+                    <div class="job-details">
+                        <span class="job-detail"><i class="fas fa-building me-1"></i>{{ job.department }}</span>
+                        <span class="job-detail"><i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}</span>
+                        <span class="job-detail"><i class="fas fa-clock me-1"></i>{{ job.contract_type }}</span>
+                        <span class="job-detail"><i class="fas fa-tag me-1"></i>Réf: {{ job.reference }}</span>
+                    </div>
+                </div>
+
+                <!-- Indicateur de progression -->
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-content">Informations personnelles</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-content">Expérience professionnelle</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-content">Documents</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-content">Motivation</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-custom">
+                    <div class="progress-fill" style="width: 25%"></div>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" enctype="multipart/form-data" id="applicationForm">
+                    <!-- Étape 1: Informations personnelles -->
+                    <div class="form-section active" data-section="1">
+                        <h5 class="mb-4">Informations personnelles</h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" required>
+                                    <label for="first_name">Prénom *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" required>
+                                    <label for="last_name">Nom *</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                    <label for="email">Email *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Téléphone" required>
+                                    <label for="phone">Téléphone *</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating">
+                            <textarea class="form-control" id="address" name="address" placeholder="Adresse" style="height: 80px" required></textarea>
+                            <label for="address">Adresse *</label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                                    <label for="birth_date">Date de naissance *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationalité" required>
+                                    <label for="nationality">Nationalité *</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" class="btn btn-next" onclick="nextStep()">
+                                Suivant <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Étape 2: Expérience professionnelle -->
+                    <div class="form-section" data-section="2">
+                        <h5 class="mb-4">Expérience professionnelle</h5>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="education_level" name="education_level" required>
+                                        <option value="">Choisir...</option>
+                                        <option value="Bac">Baccalauréat</option>
+                                        <option value="Bac+2">Bac+2</option>
+                                        <option value="Bac+3">Bac+3 (Licence)</option>
+                                        <option value="Bac+5">Bac+5 (Master)</option>
+                                        <option value="Doctorat">Doctorat</option>
+                                    </select>
+                                    <label for="education_level">Niveau d'études *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="experience_years" name="experience_years" required>
+                                        <option value="">Choisir...</option>
+                                        <option value="0">Débutant</option>
+                                        <option value="1">1 an</option>
+                                        <option value="2">2 ans</option>
+                                        <option value="3">3 ans</option>
+                                        <option value="5">5 ans</option>
+                                        <option value="10">10 ans et plus</option>
+                                    </select>
+                                    <label for="experience_years">Années d'expérience *</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="current_position" name="current_position" placeholder="Poste actuel">
+                            <label for="current_position">Poste actuel</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <textarea class="form-control" id="skills" name="skills" placeholder="Compétences" style="height: 100px"></textarea>
+                            <label for="skills">Compétences principales</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="languages" name="languages" placeholder="Langues">
+                            <label for="languages">Langues parlées</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left me-1"></i> Précédent
+                            </button>
+                            <button type="button" class="btn btn-next" onclick="nextStep()">
+                                Suivant <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Étape 3: Documents -->
+                    <div class="form-section" data-section="3">
+                        <h5 class="mb-4">Documents</h5>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">CV *</label>
+                                <div class="file-upload" onclick="document.getElementById('cv_file').click()">
+                                    <i class="fas fa-file-pdf fa-2x mb-2 text-primary"></i>
+                                    <p class="mb-0">Cliquez pour sélectionner</p>
+                                    <small class="text-muted">PDF, DOC, DOCX (Max 5MB)</small>
+                                </div>
+                                <input type="file" id="cv_file" name="cv_file" accept=".pdf,.doc,.docx" style="display: none" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Lettre de motivation</label>
+                                <div class="file-upload" onclick="document.getElementById('cover_letter_file').click()">
+                                    <i class="fas fa-file-alt fa-2x mb-2 text-secondary"></i>
+                                    <p class="mb-0">Cliquez pour sélectionner</p>
+                                    <small class="text-muted">PDF, DOC, DOCX (Max 5MB)</small>
+                                </div>
+                                <input type="file" id="cover_letter_file" name="cover_letter_file" accept=".pdf,.doc,.docx" style="display: none">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Diplôme</label>
+                                <div class="file-upload" onclick="document.getElementById('diploma_file').click()">
+                                    <i class="fas fa-certificate fa-2x mb-2 text-success"></i>
+                                    <p class="mb-0">Cliquez pour sélectionner</p>
+                                    <small class="text-muted">PDF, JPG, PNG (Max 5MB)</small>
+                                </div>
+                                <input type="file" id="diploma_file" name="diploma_file" accept=".pdf,.jpg,.jpeg,.png" style="display: none">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left me-1"></i> Précédent
+                            </button>
+                            <button type="button" class="btn btn-next" onclick="nextStep()">
+                                Suivant <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Étape 4: Motivation -->
+                    <div class="form-section" data-section="4">
+                        <h5 class="mb-4">Lettre de motivation</h5>
+
+                        <div class="form-floating">
+                            <textarea class="form-control" id="motivation_letter" name="motivation_letter" placeholder="Lettre de motivation" style="height: 200px" required></textarea>
+                            <label for="motivation_letter">Expliquez pourquoi vous souhaitez rejoindre ONDA *</label>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            En soumettant cette candidature, vous acceptez que vos données personnelles soient traitées par ONDA dans le cadre du processus de recrutement.
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-prev" onclick="prevStep()">
+                                <i class="fas fa-arrow-left me-1"></i> Précédent
+                            </button>
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-paper-plane me-1"></i> Envoyer ma candidature
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 4;
+
+function updateStepIndicator() {
+    document.querySelectorAll('.step').forEach((step, index) => {
+        const stepNumber = index + 1;
+        if (stepNumber < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (stepNumber === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+
+    // Update progress bar
+    const progress = (currentStep / totalSteps) * 100;
+    document.querySelector('.progress-fill').style.width = progress + '%';
+}
+
+function showSection(sectionNumber) {
+    document.querySelectorAll('.form-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.querySelector(`[data-section="${sectionNumber}"]`).classList.add('active');
+}
+
+function nextStep() {
+    if (validateCurrentStep()) {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showSection(currentStep);
+            updateStepIndicator();
+        }
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        showSection(currentStep);
+        updateStepIndicator();
+    }
+}
+
+function validateCurrentStep() {
+    const currentSection = document.querySelector(`[data-section="${currentStep}"]`);
+    const requiredFields = currentSection.querySelectorAll('[required]');
+    
+    for (let field of requiredFields) {
+        if (!field.value.trim()) {
+            field.focus();
+            field.classList.add('is-invalid');
+            return false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    }
+    return true;
+}
+
+// File upload handlers
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const fileUpload = this.parentElement.querySelector('.file-upload') || this.parentElement;
+        const fileName = this.files[0] ? this.files[0].name : '';
+        
+        if (fileName) {
+            fileUpload.style.borderColor = 'var(--accent-color)';
+            fileUpload.style.background = 'rgba(0, 212, 170, 0.1)';
+            const p = fileUpload.querySelector('p');
+            if (p) p.textContent = fileName;
+        }
+    });
+});
+
+// Form validation
+document.getElementById('applicationForm').addEventListener('submit', function(e) {
+    if (!validateCurrentStep()) {
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Hôtels au Maroc</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      background-color: #f9f9f9;
+    }
+
+    h1, h2 {
+      color: #003366;
+      text-align: center;
+    }
+
+    .topnav {
+      background-color: #004080;
+      overflow: hidden;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .topnav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .ville-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .ville-btn {
+      padding: 12px 20px;
+      background-color: #007B8A;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .ville-btn:hover {
+      background-color: #ca6f1e;
+    }
+    .ville-btn.active {
+  background-color: #ca6f1e; /* Orange sélectionné */
+}
+    .search-box {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .filter-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filter-box label {
+      margin: 0 10px;
+    }
+
+    .hotel-list {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .hotel-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      gap: 20px;
+    }
+
+    .hotel-info {
+      flex: 1;
+    }
+
+    .hotel-card img {
+      width: 380px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .hotel-card h3 {
+      margin-top: 0;
+      color: #004080;
+    }
+
+    .prix {
+      font-weight: bold;
+      color: #008000;
+    }
+
+    ul.services {
+      margin: 8px 0;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="index.html">Accueil</a>
+  <a href="services.html">Retour aux services</a>
+</div>
+
+<h1>Choisissez une ville au Maroc</h1>
+
+<div class="ville-container">
+  <button class="ville-btn" onclick="afficherHotels('Casablanca')">Casablanca</button>
+  <button class="ville-btn" onclick="afficherHotels('Marrakech')">Marrakech</button>
+  <button class="ville-btn" onclick="afficherHotels('Fès')">Fès</button>
+  <button class="ville-btn" onclick="afficherHotels('Tanger')">Tanger</button>
+  <button class="ville-btn" onclick="afficherHotels('Rabat')">Rabat</button>
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Rechercher un hôtel ou un service...">
+</div>
+
+<div class="filter-box">
+  <label><input type="checkbox" class="service-filter" value="Wi-Fi"> Wi-Fi</label>
+  <label><input type="checkbox" class="service-filter" value="Piscine"> Piscine</label>
+  <label><input type="checkbox" class="service-filter" value="Spa"> Spa</label>
+  <label><input type="checkbox" class="service-filter" value="Parking"> Parking</label>
+  <label><input type="checkbox" class="service-filter" value="Restaurant"> Restaurant</label>
+</div>
+
+<div class="hotel-list" id="hotel-list"></div>
+
+<script>
+  const hotelsData = {
+    Casablanca: [
+      { nom: "Hotel Kenzi Tower", prix: "120 €", services: ["Wi-Fi", "Spa", "Salle de sport", "Restaurant"], image: "kenzi.jpg" },
+      { nom: "Barceló Anfa Casablanca", prix: "140 €", services: ["Piscine", "Petit déjeuner inclus", "Parking", "Bar"], image: "barcelo.jpg" }
+    ],
+    Marrakech: [
+      { nom: "La Mamounia", prix: "350 €", services: ["Jardin", "Hammam", "3 restaurants", "Spa"], image: "mamonia.jpg" },
+      { nom: "Royal Mansour", prix: "450 €", services: ["Riad privé", "Spa", "Piscine", "Restaurant"], image: "royal.jpg" }
+    ],
+    Fès: [
+      { nom: "Riad Fès", prix: "180 €", services: ["Architecture traditionnelle", "Piscine", "Terrasse", "Wi-Fi"], image: "riad.jpg" },
+      { nom: "Palais Faraj", prix: "210 €", services: ["Vue panoramique", "Spa", "Petit-déjeuner inclus"], image: "faraj.jpg" }
+    ],
+    Tanger: [
+      { nom: "Hilton Garden Inn", prix: "100 €", services: ["Face à la mer", "Salle de sport", "Wi-Fi", "Restaurant"], image: "hilton.jpg" },
+      { nom: "Mövenpick Malabata", prix: "160 €", services: ["Casino", "Piscine", "Spa", "Vue mer"], image: "mov.jpg" }
+    ],
+    Rabat: [
+      { nom: "Sofitel Rabat", prix: "220 €", services: ["Spa", "Wi-Fi", "Piscine", "Restaurant"], image: "sofitel.jpg" }
+    ],
+   
+  };
+
+  function afficherHotels(ville) {
+    const hotels = hotelsData[ville];
+    const container = document.getElementById("hotel-list");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderHotels(filtreTexte = "") {
+      const checkboxes = document.querySelectorAll(".service-filter");
+      const servicesDemandes = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value.toLowerCase());
+
+      container.innerHTML = `<h2>Hôtels bien notés à ${ville}</h2>`;
+
+      const hotelsFiltres = hotels.filter(hotel => {
+        const texte = (hotel.nom + " " + hotel.services.join(" ")).toLowerCase();
+        const correspondTexte = texte.includes(filtreTexte.toLowerCase());
+
+        const servicesHotel = hotel.services.map(s => s.toLowerCase());
+        const correspondServices = servicesDemandes.every(s => servicesHotel.includes(s));
+
+        return correspondTexte && correspondServices;
+      });
+
+      if (hotelsFiltres.length === 0) {
+        container.innerHTML += `<p>Aucun hôtel ne correspond à votre recherche.</p>`;
+      }
+
+      hotelsFiltres.forEach(hotel => {
+        const servicesList = hotel.services.map(service => `<li>${service}</li>`).join("");
+        container.innerHTML += `
+          <div class="hotel-card">
+            <div class="hotel-info">
+              <h3>${hotel.nom}</h3>
+              <p class="prix">Prix par nuit : ${hotel.prix}</p>
+              <p>Services :</p>
+              <ul class="services">${servicesList}</ul>
+            </div>
+            <img src="${hotel.image}" alt="Image de ${hotel.nom}">
+          </div>
+        `;
+      });
+    }
+
+    renderHotels();
+
+    searchInput.oninput = () => renderHotels(searchInput.value);
+    document.querySelectorAll(".service-filter").forEach(cb => {
+      cb.onchange = () => renderHotels(searchInput.value);
+    });
+  }
+</script>
+
+</body>
+</html>
