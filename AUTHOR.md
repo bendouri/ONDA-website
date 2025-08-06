@@ -1,4 +1,4 @@
-# 👩‍💻 Auteur du Projet
+# Auteur du Projet
 
 **Développé par :** Sara BENDOURI & Wissal ZITOUNE
 **Email :** sara.bendouri2004@gmail.com   &  Wissalbenn9@gmail.com
